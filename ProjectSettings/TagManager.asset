@@ -3,11 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - LeftWall
-  - RightWall
-  - TopWall
-  - BottomWall
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -17,11 +13,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Platform
+  - Player
+  - Wall
+  - StaticWall
+  - Spike
   - 
   - 
   - 

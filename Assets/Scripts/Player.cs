@@ -10,12 +10,14 @@ public class Player : MonoBehaviour
 
     //private variables
     private Rigidbody2D playerRigidbody;
+    private CapsuleCollider2D playerFeet;
     private Vector2 jumpVector;
     private Vector2 moveVector;
 
     void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
+        playerFeet = GetComponent<CapsuleCollider2D>();
         jumpVector = new Vector2(0, jumpHeight);
         moveVector = new Vector2(moveVelocity, 0);
     }
@@ -26,11 +28,16 @@ public class Player : MonoBehaviour
         Move();
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        if(other.gameObject.tag.Contains("Wall"))
+        if(collision.collider.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             moveVector *= -1;
+        }
+
+        if(collision.collider.gameObject.layer == LayerMask.NameToLayer("Spike"))
+        {
+            gameObject.SetActive(false);
         }
     }
 
@@ -41,6 +48,8 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
+        if(!playerFeet.IsTouchingLayers(LayerMask.GetMask("Platform"))) { return; }
+
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -52,5 +61,11 @@ public class Player : MonoBehaviour
         {
             playerRigidbody.velocity = jumpVector;
         }
+    }
+
+    public void ResetPosition()
+    {
+        gameObject.SetActive(true);
+        transform.position = new Vector2(1.17f, 5f);
     }
 }
