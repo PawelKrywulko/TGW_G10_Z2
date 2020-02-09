@@ -1,18 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] public float jumpHeight = 7f;
-    [SerializeField] public float moveVelocity = 20f;
+    [SerializeField] private float jumpHeight = 7f;
+    [SerializeField] private float moveVelocity = 20f;
 
     //private variables
     private Rigidbody2D playerRigidbody;
     private CapsuleCollider2D playerFeet;
     private Vector2 jumpVector;
     private Vector2 moveVector;
+    private PlatformGenerator platformGenerator;
 
     void Awake()
     {
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
         playerFeet = GetComponent<CapsuleCollider2D>();
         jumpVector = new Vector2(0, jumpHeight);
         moveVector = new Vector2(moveVelocity, 0);
+        platformGenerator = FindObjectOfType<PlatformGenerator>();
     }
 
     void Update()
@@ -33,6 +35,7 @@ public class Player : MonoBehaviour
         if(collision.collider.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
             moveVector *= -1;
+            platformGenerator.SetUpPlatforms(6);
         }
 
         if(collision.collider.gameObject.layer == LayerMask.NameToLayer("Spike"))
@@ -48,16 +51,19 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        if(!playerFeet.IsTouchingLayers(LayerMask.GetMask("Platform"))) { return; }
+        if(!playerFeet.IsTouchingLayers(LayerMask.GetMask("Platform")) && !playerFeet.IsTouchingLayers(LayerMask.GetMask("Wall"))) 
+        { 
+            return; 
+        }
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
         if (Input.GetKeyDown(KeyCode.Space))
         {
             playerRigidbody.velocity = jumpVector;
         }
 #endif
 
-        if (Input.touchCount == 1)
+        if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             playerRigidbody.velocity = jumpVector;
         }
@@ -65,7 +71,11 @@ public class Player : MonoBehaviour
 
     public void ResetPosition()
     {
-        gameObject.SetActive(true);
-        transform.position = new Vector2(1.17f, 5f);
+        SceneManager.LoadScene(0);
+    }
+
+    public Vector3 GetCurrentPosition()
+    {
+        return gameObject.transform.position;
     }
 }
