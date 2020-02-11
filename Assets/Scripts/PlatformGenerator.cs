@@ -1,4 +1,4 @@
-﻿
+﻿using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,39 +6,25 @@ using UnityEngine;
 
 public class PlatformGenerator : MonoBehaviour
 {
-    [SerializeField] GameObject platform;
-    [SerializeField] Transform platformsParent;
+    [SerializeField] GameObject platform = null;
+    [SerializeField] MinMaxPosition firstPlatformSpawnLocation = default;
+    [SerializeField] MinMaxPosition SpaceBetweenPlatforms = default;
 
     List<GameObject> platforms = new List<GameObject>();
     Player player;
     float factor = 1;
 
-    void Awake()
-    {
-        InitializePlatformsList(10);
-    }
-
     void Start()
     {
         player = FindObjectOfType<Player>();
-        SetupPlatformsBeforeStart(5);
+        SetupPlatformsBeforeStart(10, 5);
     }
 
-    private void SetupPlatformsBeforeStart(int startX)
-    {
-        platforms.ForEach(platform =>
-        {
-            platform.transform.position = new Vector3(startX++, 5);
-            platform.SetActive(true);
-        });
-    }
-
-    void InitializePlatformsList(int count)
+    private void SetupPlatformsBeforeStart(int count, int startX)
     {
         for (int i = 0; i < count; i++)
         {
-            var newPlatform = Instantiate(platform, Vector3.zero, Quaternion.identity);
-            newPlatform.SetActive(false);
+            var newPlatform = Instantiate(platform, new Vector3(startX++, 5), Quaternion.identity);
             platforms.Add(newPlatform);
         }
     }
@@ -47,8 +33,8 @@ public class PlatformGenerator : MonoBehaviour
     {
         factor *= -1f;
         platforms.ForEach(platform => platform.SetActive(false));
-        float xPos = player.GetCurrentPosition().x + Random.Range(1f, 2f) * factor;
-        float yPos = player.GetCurrentPosition().y - Random.Range(1.5f, 2.5f);
+        float xPos = player.GetCurrentPosition().x + Random.Range(firstPlatformSpawnLocation.minX, firstPlatformSpawnLocation.maxX) * factor;
+        float yPos = player.GetCurrentPosition().y - Random.Range(firstPlatformSpawnLocation.minY, firstPlatformSpawnLocation.maxY);
 
         for (int i = 0; i < count; i++)
         {
@@ -60,8 +46,8 @@ public class PlatformGenerator : MonoBehaviour
                 platform.SetActive(true);
             }
 
-            xPos += Random.Range(2f, 3f) * factor;
-            yPos += Random.Range(-1f, 1f);
+            xPos += Random.Range(SpaceBetweenPlatforms.minX, SpaceBetweenPlatforms.maxX) * factor;
+            yPos += Random.Range(SpaceBetweenPlatforms.minY, SpaceBetweenPlatforms.maxY);
             yPos = Mathf.Clamp(yPos, 2f, 7f);
         }
     }

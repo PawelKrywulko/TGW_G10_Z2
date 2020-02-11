@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,21 +8,32 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float jumpHeight = 7f;
     [SerializeField] private float moveVelocity = 20f;
+    [SerializeField] private bool wallSlidingEnabled = true;
 
     //private variables
+    private float directionFactor = 1f;
     private Rigidbody2D playerRigidbody;
-    private CapsuleCollider2D playerFeet;
+    private BoxCollider2D platformChecker;
+    private BoxCollider2D wallChecker;
     private Vector2 jumpVector;
     private Vector2 moveVector;
     private PlatformGenerator platformGenerator;
+    private bool canDoubleJump;
+    private LayerMask platformMask;
+    private LayerMask wallMask;
+    private float gravityScaleAtStart;
 
     void Awake()
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
-        playerFeet = GetComponent<CapsuleCollider2D>();
+        platformChecker = transform.Find("PlatformChecker").GetComponent<BoxCollider2D>();
+        wallChecker = transform.Find("WallChecker").GetComponent<BoxCollider2D>();
         jumpVector = new Vector2(0, jumpHeight);
         moveVector = new Vector2(moveVelocity, 0);
         platformGenerator = FindObjectOfType<PlatformGenerator>();
+        platformMask = LayerMask.GetMask("Platform");
+        wallMask = LayerMask.GetMask("Wall");
+        gravityScaleAtStart = playerRigidbody.gravityScale;
     }
 
     void Update()
@@ -32,44 +44,109 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.gameObject.layer == LayerMask.NameToLayer("Wall"))
-        {
-            moveVector *= -1;
-            platformGenerator.SetUpPlatforms(6);
-        }
-
-        if(collision.collider.gameObject.layer == LayerMask.NameToLayer("Spike"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Spike"))
         {
             gameObject.SetActive(false);
+        }
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            directionFactor *= -1;
+
+            if(wallSlidingEnabled)
+            {
+                moveVector = new Vector2(0,0);
+                playerRigidbody.gravityScale = 1;
+            }
+            else
+            {
+                moveVector *= -1;
+            }
+
+            platformGenerator.SetUpPlatforms(6);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Coin"))
+        {
+            collision.gameObject.SetActive(false);
         }
     }
 
     private void Move()
     {
         transform.Translate(moveVector * Time.deltaTime);
+
+        if (Input.touchCount == 2 && Input.GetTouch(1).phase == TouchPhase.Began)
+        {
+            var timeBetweenTouches = Mathf.Abs(Input.GetTouch(0).deltaTime - Input.GetTouch(1).deltaTime);
+            if(timeBetweenTouches > 0 && timeBetweenTouches < 0.03f)
+            {
+                directionFactor *= -1;
+                moveVector *= directionFactor;
+            }
+        }
     }
 
     private void Jump()
     {
-        if(!playerFeet.IsTouchingLayers(LayerMask.GetMask("Platform")) && !playerFeet.IsTouchingLayers(LayerMask.GetMask("Wall"))) 
-        { 
-            return; 
-        }
-
+        #region PC Input
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            playerRigidbody.velocity = jumpVector;
+            if (platformChecker.IsTouchingLayers(platformMask) || wallChecker.IsTouchingLayers(wallMask))
+            {
+                if(wallChecker.IsTouchingLayers(wallMask) && wallSlidingEnabled)
+                {
+                    playerRigidbody.gravityScale = gravityScaleAtStart;
+                     moveVector = new Vector2(moveVelocity, 0) * directionFactor;
+                }
+                playerRigidbody.velocity = jumpVector;
+                canDoubleJump = true;
+            }
+            else
+            {
+                if(canDoubleJump)
+                {
+                    playerRigidbody.velocity = jumpVector;
+                    canDoubleJump = false;
+                }
+            }
         }
 #endif
+        #endregion
 
         if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            playerRigidbody.velocity = jumpVector;
+            if (platformChecker.IsTouchingLayers(platformMask) || wallChecker.IsTouchingLayers(wallMask))
+            {
+                if (wallChecker.IsTouchingLayers(wallMask) && wallSlidingEnabled)
+                {
+                    playerRigidbody.gravityScale = gravityScaleAtStart;
+                    moveVector = new Vector2(moveVelocity, 0) * directionFactor;
+                }
+                playerRigidbody.velocity = jumpVector;
+                canDoubleJump = true;
+            }
+            else
+            {
+                if (canDoubleJump)
+                {
+                    playerRigidbody.velocity = jumpVector;
+                    canDoubleJump = false;
+                }
+            }
         }
     }
 
-    public void ResetPosition()
+    void OnDisable()
+    {
+        //SceneManager.LoadScene(0);
+    }
+
+    public void Reset()
     {
         SceneManager.LoadScene(0);
     }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2397986152784570200}
   - component: {fileID: 2397986152784570199}
   - component: {fileID: 2397986152784570198}
+  - component: {fileID: 2132276204}
   m_Layer: 8
   m_Name: Platform
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 6852569468444251219}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.9417694, y: 5.400225, z: -295.23206}
-  m_LocalScale: {x: 35.37, y: 0.33, z: 1}
+  m_LocalScale: {x: 1, y: 0.25, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -130,3 +131,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2132276204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6852569468444251219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2006bc0b92aaf94f92ca65924b54ec3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coin: {fileID: 341555818390136253, guid: 05233c68785f6e94da29613fcc234b17, type: 3}
+  coinPosition:
+    minX: -0.5
+    maxX: 0.5
+    minY: 2
+    maxY: 2
