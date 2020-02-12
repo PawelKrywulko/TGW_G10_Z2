@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     private LayerMask platformMask;
     private LayerMask wallMask;
     private float gravityScaleAtStart;
+    private int collectedCoins = 0;
+    private GameManager gameManager;
 
     void Awake()
     {
@@ -34,6 +36,7 @@ public class Player : MonoBehaviour
         platformMask = LayerMask.GetMask("Platform");
         wallMask = LayerMask.GetMask("Wall");
         gravityScaleAtStart = playerRigidbody.gravityScale;
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     void Update()
@@ -46,6 +49,8 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Spike"))
         {
+            collectedCoins = 0;
+            gameManager.UpdateCollectedCoins(collectedCoins);
             gameObject.SetActive(false);
         }
 
@@ -71,7 +76,16 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Coin"))
         {
+            collectedCoins++;
+            gameManager.UpdateCollectedCoins(collectedCoins);
             collision.gameObject.SetActive(false);
+        }
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Bank"))
+        {
+            gameManager.UpdateBankedCoins(collectedCoins);
+            collectedCoins = 0;
+            gameManager.UpdateCollectedCoins(collectedCoins);
         }
     }
 
