@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Events;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -32,7 +33,6 @@ public class Player : MonoBehaviour
         wallChecker = transform.Find("WallChecker").GetComponent<BoxCollider2D>();
         jumpVector = new Vector2(0, jumpHeight);
         moveVector = new Vector2(moveVelocity, 0);
-        platformGenerator = FindObjectOfType<PlatformGenerator>();
         platformMask = LayerMask.GetMask("Platform");
         wallMask = LayerMask.GetMask("Wall");
         gravityScaleAtStart = playerRigidbody.gravityScale;
@@ -68,7 +68,10 @@ public class Player : MonoBehaviour
                 moveVector *= -1;
             }
 
-            platformGenerator.SetUpPlatforms(6);
+            GameEvents.Instance.HandleWallTriggerEntered(new PlayerWallEntered
+            {
+                PlayerPosition = transform.position
+            });
         }
     }
 

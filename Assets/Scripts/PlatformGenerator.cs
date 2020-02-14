@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using Assets.Scripts.Events;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,11 @@ public class PlatformGenerator : MonoBehaviour
     [SerializeField] MinMaxPosition SpaceBetweenPlatforms = default;
 
     List<GameObject> platforms = new List<GameObject>();
-    Player player;
     float factor = 1;
 
     void Start()
     {
-        player = FindObjectOfType<Player>();
+        GameEvents.Instance.OnWallTriggerEntered += SetUpPlatforms;
         SetupPlatformsBeforeStart(10, 5);
     }
 
@@ -29,14 +29,14 @@ public class PlatformGenerator : MonoBehaviour
         }
     }
 
-    public void SetUpPlatforms(int count)
+    public void SetUpPlatforms(PlayerWallEntered player)
     {
         factor *= -1f;
         platforms.ForEach(platform => platform.SetActive(false));
-        float xPos = player.GetCurrentPosition().x + Random.Range(firstPlatformSpawnLocation.minX, firstPlatformSpawnLocation.maxX) * factor;
-        float yPos = player.GetCurrentPosition().y - Random.Range(firstPlatformSpawnLocation.minY, firstPlatformSpawnLocation.maxY);
+        float xPos = player.PlayerPosition.x + Random.Range(firstPlatformSpawnLocation.minX, firstPlatformSpawnLocation.maxX) * factor;
+        float yPos = player.PlayerPosition.y - Random.Range(firstPlatformSpawnLocation.minY, firstPlatformSpawnLocation.maxY);
 
-        for (int i = 0; i < count; i++)
+        for (int i = 0; ; i++)
         {
             var platform = platforms[i];
             platform.transform.position = new Vector3(xPos, yPos);
@@ -45,6 +45,8 @@ public class PlatformGenerator : MonoBehaviour
             {
                 platform.SetActive(true);
             }
+            else 
+                break;
 
             xPos += Random.Range(SpaceBetweenPlatforms.minX, SpaceBetweenPlatforms.maxX) * factor;
             yPos += Random.Range(SpaceBetweenPlatforms.minY, SpaceBetweenPlatforms.maxY);
