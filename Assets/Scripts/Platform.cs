@@ -5,7 +5,7 @@ using Assets.Scripts;
 
 public class Platform : MonoBehaviour
 {
-    [SerializeField] GameObject coin;
+    [SerializeField] GameObject coin = default;
     [SerializeField] MinMaxPosition coinPosition = default;
     
     GameObject coinInstance;
@@ -24,7 +24,7 @@ public class Platform : MonoBehaviour
         if (!firstStart && Random.Range(0, 2) == 1)
         {
             coinInstance.transform.localPosition = new Vector2(Random.Range(coinPosition.minX, coinPosition.maxX), Random.Range(coinPosition.minY, coinPosition.maxY));
-             coinInstance.SetActive(true);
+            coinInstance.SetActive(true);
         }
         firstStart = false;
     }

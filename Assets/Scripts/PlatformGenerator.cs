@@ -29,7 +29,7 @@ public class PlatformGenerator : MonoBehaviour
         }
     }
 
-    public void SetUpPlatforms(PlayerWallEntered player)
+    private void SetUpPlatforms(PlayerWallEntered player)
     {
         factor *= -1f;
         platforms.ForEach(platform => platform.SetActive(false));

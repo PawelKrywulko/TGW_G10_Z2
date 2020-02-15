@@ -18,13 +18,10 @@ public class Player : MonoBehaviour
     private BoxCollider2D wallChecker;
     private Vector2 jumpVector;
     private Vector2 moveVector;
-    private PlatformGenerator platformGenerator;
     private bool canDoubleJump;
     private LayerMask platformMask;
     private LayerMask wallMask;
     private float gravityScaleAtStart;
-    private int collectedCoins = 0;
-    private GameManager gameManager;
 
     void Awake()
     {
@@ -36,7 +33,6 @@ public class Player : MonoBehaviour
         platformMask = LayerMask.GetMask("Platform");
         wallMask = LayerMask.GetMask("Wall");
         gravityScaleAtStart = playerRigidbody.gravityScale;
-        gameManager = FindObjectOfType<GameManager>();
     }
 
     void Update()
@@ -49,8 +45,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Spike"))
         {
-            collectedCoins = 0;
-            gameManager.UpdateCollectedCoins(collectedCoins);
+            GameEvents.Instance.HandleSpikeTriggerEntered();
             gameObject.SetActive(false);
         }
 
@@ -79,16 +74,13 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Coin"))
         {
-            collectedCoins++;
-            gameManager.UpdateCollectedCoins(collectedCoins);
+            GameEvents.Instance.HandleCoinTriggerEntered();
             collision.gameObject.SetActive(false);
         }
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Bank"))
         {
-            gameManager.UpdateBankedCoins(collectedCoins);
-            collectedCoins = 0;
-            gameManager.UpdateCollectedCoins(collectedCoins);
+            GameEvents.Instance.HandleBankTriggerEntered();
         }
     }
 
@@ -158,18 +150,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnDisable()
-    {
-        //SceneManager.LoadScene(0);
-    }
-
-    public void Reset()
+    public void ResetPosition()
     {
         SceneManager.LoadScene(0);
-    }
-
-    public Vector3 GetCurrentPosition()
-    {
-        return gameObject.transform.position;
     }
 }

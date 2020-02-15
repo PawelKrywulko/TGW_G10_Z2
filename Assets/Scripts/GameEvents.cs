@@ -17,14 +17,32 @@ public class GameEvents : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
     }
 
     public event Action<PlayerWallEntered> OnWallTriggerEntered;
+    public event Action OnBankTriggerEntered;
+    public event Action OnCoinTriggerEntered;
+    public event Action OnSpikeTriggerEntered;
 
     public void HandleWallTriggerEntered(PlayerWallEntered eventData)
     {
         OnWallTriggerEntered?.Invoke(eventData);
+    }
+
+    public void HandleBankTriggerEntered()
+    {
+        OnBankTriggerEntered?.Invoke();
+    }
+
+    public void HandleCoinTriggerEntered()
+    {
+        OnCoinTriggerEntered?.Invoke();
+    }
+
+    public void HandleSpikeTriggerEntered()
+    {
+        OnSpikeTriggerEntered?.Invoke();
     }
 }

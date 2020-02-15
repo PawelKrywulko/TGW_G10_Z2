@@ -1,20 +1,61 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Events;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] Text bankText;
-    [SerializeField] Text collectedCoinsText;
+    [SerializeField] Text bankText = default;
+    [SerializeField] Text collectedCoinsText = default;
 
-    public void UpdateCollectedCoins(int collectedCoins)
+    int bankedCoins = 0;
+    int collectedCoins = 0;
+
+    public static GameManager Instance { get; private set; }
+
+    private void Awake()
     {
-        collectedCoinsText.text = collectedCoins.ToString();
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            //DontDestroyOnLoad(gameObject);
+        }
     }
 
-    public void UpdateBankedCoins(int collectedCoins)
+    private void Start()
     {
-        bankText.text = collectedCoins.ToString();
+        GameEvents.Instance.OnBankTriggerEntered += UpdateBankedCoins;
+        GameEvents.Instance.OnCoinTriggerEntered += UpdateCollectedCoins;
+        GameEvents.Instance.OnSpikeTriggerEntered += RemoveCollectedCoins;
+    }
+
+    private void UpdateBankedCoins()
+    {
+        bankedCoins += collectedCoins;
+        collectedCoins = 0;
+        RefreshGUI();        
+    }
+
+    public void UpdateCollectedCoins()
+    {
+        collectedCoins++;
+        RefreshGUI();
+    }
+
+    public void RemoveCollectedCoins()
+    {
+        collectedCoins = 0;
+        RefreshGUI();
+    }
+
+    private void RefreshGUI()
+    {
+        collectedCoinsText.text = collectedCoins.ToString();
+        bankText.text = bankedCoins.ToString();
     }
 }
