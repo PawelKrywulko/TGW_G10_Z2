@@ -10,7 +10,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpHeight = 7f;
     [SerializeField] private float moveVelocity = 20f;
     [SerializeField] private bool wallSlidingEnabled = true;
-    [SerializeField] private float maxWallSlideVelocity = default;
+    [SerializeField] private bool doubleJumpEnabled = true;
+    [SerializeField] private float maxWallSlideVelocity = 1f;
 
     //private variables
     private float directionFactor = 1f;
@@ -123,54 +124,45 @@ public class Player : MonoBehaviour
     private void Jump()
     {
         #region PC Input
+
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (platformChecker.IsTouchingLayers(platformMask) || wallChecker.IsTouchingLayers(wallMask))
-            {
-                if(wallChecker.IsTouchingLayers(wallMask) && wallSlidingEnabled)
-                {
-                    moveVector = new Vector2(moveVelocity, 0) * directionFactor;
-                }
-
-                playerRigidbody.velocity = jumpVector;
-                canDoubleJump = true;
-            }
-            else
-            {
-                if(canDoubleJump)
-                {
-                    playerRigidbody.velocity = jumpVector;
-                    canDoubleJump = false;
-                }
-            }
+            HandleJumping();
         }
+
 #endif
         #endregion
 
         #region Mobile Input
         if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            if (platformChecker.IsTouchingLayers(platformMask) || wallChecker.IsTouchingLayers(wallMask))
-            {
-                if (wallChecker.IsTouchingLayers(wallMask) && wallSlidingEnabled)
-                {
-                    moveVector = new Vector2(moveVelocity, 0) * directionFactor;
-                }
-
-                playerRigidbody.velocity = jumpVector;
-                canDoubleJump = true;
-            }
-            else
-            {
-                if (canDoubleJump)
-                {
-                    playerRigidbody.velocity = jumpVector;
-                    canDoubleJump = false;
-                }
-            }
+            HandleJumping();
         }
         #endregion
+    }
+
+    private void HandleJumping()
+    {
+        if (platformChecker.IsTouchingLayers(platformMask) || wallChecker.IsTouchingLayers(wallMask))
+        {
+            if (wallChecker.IsTouchingLayers(wallMask) && wallSlidingEnabled)
+            {
+                moveVector = new Vector2(moveVelocity, 0) * directionFactor;
+            }
+
+            playerRigidbody.velocity = jumpVector;
+            canDoubleJump = true;
+        }
+        else
+        {
+            if (canDoubleJump && doubleJumpEnabled)
+            {
+                playerRigidbody.velocity = jumpVector;
+                canDoubleJump = false;
+            }
+        }
     }
 
     public void ResetPosition()
