@@ -1156,6 +1156,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1577783705, guid: 430c797660f74914794c1959b4e0c03d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.08
+      objectReference: {fileID: 0}
     - target: {fileID: 1577783706, guid: 430c797660f74914794c1959b4e0c03d, type: 3}
       propertyPath: m_IsTrigger
       value: 1
@@ -1223,6 +1227,16 @@ PrefabInstance:
     - target: {fileID: 5250468366115528774, guid: 430c797660f74914794c1959b4e0c03d,
         type: 3}
       propertyPath: wallSlidingEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5250468366115528774, guid: 430c797660f74914794c1959b4e0c03d,
+        type: 3}
+      propertyPath: wallCheckDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5250468366115528774, guid: 430c797660f74914794c1959b4e0c03d,
+        type: 3}
+      propertyPath: maxWallSlideVelocity
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

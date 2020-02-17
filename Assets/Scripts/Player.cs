@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpHeight = 7f;
     [SerializeField] private float moveVelocity = 20f;
     [SerializeField] private bool wallSlidingEnabled = true;
+    [SerializeField] private float maxWallSlideVelocity = default;
 
     //private variables
     private float directionFactor = 1f;
@@ -19,9 +20,9 @@ public class Player : MonoBehaviour
     private Vector2 jumpVector;
     private Vector2 moveVector;
     private bool canDoubleJump;
+    private bool isWallSliding = false;
     private LayerMask platformMask;
     private LayerMask wallMask;
-    private float gravityScaleAtStart;
 
     void Awake()
     {
@@ -32,13 +33,36 @@ public class Player : MonoBehaviour
         moveVector = new Vector2(moveVelocity, 0);
         platformMask = LayerMask.GetMask("Platform");
         wallMask = LayerMask.GetMask("Wall");
-        gravityScaleAtStart = playerRigidbody.gravityScale;
     }
 
     void Update()
     {
         Jump();
         Move();
+        WallSlide();
+    }
+
+    void FixedUpdate()
+    {
+        //Clamp y velocity while wall sliding
+        if(isWallSliding)
+        {
+            if(playerRigidbody.velocity.y < -maxWallSlideVelocity)
+            {
+                playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, -maxWallSlideVelocity);
+            }
+        }
+    }
+    private void WallSlide()
+    {
+        if (wallChecker.IsTouchingLayers(wallMask))
+        {
+            isWallSliding = true;
+        }
+        else
+        {
+            isWallSliding = false;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -51,22 +75,29 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            directionFactor *= -1;
-
-            if(wallSlidingEnabled)
-            {
-                moveVector = new Vector2(0,0);
-                playerRigidbody.gravityScale = 1;
-            }
-            else
-            {
-                moveVector *= -1;
-            }
+            OnWallTouch();
 
             GameEvents.Instance.HandleWallTriggerEntered(new PlayerWallEntered
             {
                 PlayerPosition = transform.position
             });
+        }
+    }
+
+    private void OnWallTouch()
+    {
+        directionFactor *= -1;
+
+        if (wallSlidingEnabled)
+        {
+            moveVector = new Vector2(0, 0);
+
+            if(playerRigidbody.velocity.y > 1)
+                playerRigidbody.velocity = new Vector2(0, 1);
+        }
+        else
+        {
+            moveVector *= -1;
         }
     }
 
@@ -87,16 +118,6 @@ public class Player : MonoBehaviour
     private void Move()
     {
         transform.Translate(moveVector * Time.deltaTime);
-
-        if (Input.touchCount == 2 && Input.GetTouch(1).phase == TouchPhase.Began)
-        {
-            var timeBetweenTouches = Mathf.Abs(Input.GetTouch(0).deltaTime - Input.GetTouch(1).deltaTime);
-            if(timeBetweenTouches > 0 && timeBetweenTouches < 0.03f)
-            {
-                directionFactor *= -1;
-                moveVector *= directionFactor;
-            }
-        }
     }
 
     private void Jump()
@@ -109,9 +130,9 @@ public class Player : MonoBehaviour
             {
                 if(wallChecker.IsTouchingLayers(wallMask) && wallSlidingEnabled)
                 {
-                    playerRigidbody.gravityScale = gravityScaleAtStart;
-                     moveVector = new Vector2(moveVelocity, 0) * directionFactor;
+                    moveVector = new Vector2(moveVelocity, 0) * directionFactor;
                 }
+
                 playerRigidbody.velocity = jumpVector;
                 canDoubleJump = true;
             }
@@ -127,15 +148,16 @@ public class Player : MonoBehaviour
 #endif
         #endregion
 
+        #region Mobile Input
         if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             if (platformChecker.IsTouchingLayers(platformMask) || wallChecker.IsTouchingLayers(wallMask))
             {
                 if (wallChecker.IsTouchingLayers(wallMask) && wallSlidingEnabled)
                 {
-                    playerRigidbody.gravityScale = gravityScaleAtStart;
                     moveVector = new Vector2(moveVelocity, 0) * directionFactor;
                 }
+
                 playerRigidbody.velocity = jumpVector;
                 canDoubleJump = true;
             }
@@ -148,6 +170,7 @@ public class Player : MonoBehaviour
                 }
             }
         }
+        #endregion
     }
 
     public void ResetPosition()
