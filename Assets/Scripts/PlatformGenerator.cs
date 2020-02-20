@@ -13,6 +13,8 @@ public class PlatformGenerator : MonoBehaviour
 
     List<GameObject> platforms = new List<GameObject>();
     float factor = 1;
+    float xPos;
+    float yPos;
 
     void Start()
     {
@@ -33,24 +35,27 @@ public class PlatformGenerator : MonoBehaviour
     {
         factor *= -1f;
         platforms.ForEach(platform => platform.SetActive(false));
-        float xPos = player.PlayerPosition.x + Random.Range(firstPlatformSpawnLocation.minX, firstPlatformSpawnLocation.maxX) * factor;
-        float yPos = player.PlayerPosition.y - Random.Range(firstPlatformSpawnLocation.minY, firstPlatformSpawnLocation.maxY);
+        xPos = player.PlayerPosition.x + Random.Range(firstPlatformSpawnLocation.minX, firstPlatformSpawnLocation.maxX) * factor;
+        yPos = player.PlayerPosition.y - Random.Range(firstPlatformSpawnLocation.minY, firstPlatformSpawnLocation.maxY);
+        yPos = Mathf.Clamp(yPos, 2f, 7f);
 
-        for (int i = 0; ; i++)
+        var firstPlatform = platforms[0];
+        firstPlatform.transform.position = new Vector3(xPos, yPos);
+        firstPlatform.SetActive(true);
+
+        foreach (var platform in platforms.Where(p => p.activeSelf == false))
         {
-            var platform = platforms[i];
-            platform.transform.position = new Vector3(xPos, yPos);
-
-            if (xPos > 1 && xPos < 16)
-            {
-                platform.SetActive(true);
-            }
-            else 
-                break;
-
             xPos += Random.Range(SpaceBetweenPlatforms.minX, SpaceBetweenPlatforms.maxX) * factor;
             yPos += Random.Range(SpaceBetweenPlatforms.minY, SpaceBetweenPlatforms.maxY);
+
             yPos = Mathf.Clamp(yPos, 2f, 7f);
+
+            if (xPos < 1 || xPos > 16)
+                break;
+
+
+            platform.transform.position = new Vector3(xPos, yPos);
+            platform.SetActive(true);
         }
     }
 }

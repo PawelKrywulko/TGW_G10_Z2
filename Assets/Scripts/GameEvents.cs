@@ -25,6 +25,7 @@ public class GameEvents : MonoBehaviour
     public event Action OnBankTriggerEntered;
     public event Action OnCoinTriggerEntered;
     public event Action OnSpikeTriggerEntered;
+    public event Action OnGameStarts;
 
     public void HandleWallTriggerEntered(PlayerWallEntered eventData)
     {
@@ -44,5 +45,10 @@ public class GameEvents : MonoBehaviour
     public void HandleSpikeTriggerEntered()
     {
         OnSpikeTriggerEntered?.Invoke();
+    }
+
+    public void HandleGameStart()
+    {
+        OnGameStarts?.Invoke();
     }
 }

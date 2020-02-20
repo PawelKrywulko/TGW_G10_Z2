@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Events;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,15 +26,21 @@ public class Player : MonoBehaviour
     private LayerMask platformMask;
     private LayerMask wallMask;
 
-    void Awake()
+    void Start()
     {
         playerRigidbody = GetComponent<Rigidbody2D>();
         platformChecker = transform.Find("PlatformChecker").GetComponent<BoxCollider2D>();
         wallChecker = transform.Find("WallChecker").GetComponent<BoxCollider2D>();
         jumpVector = new Vector2(0, jumpHeight);
-        moveVector = new Vector2(moveVelocity, 0);
+        moveVector = new Vector2(0, 0);
         platformMask = LayerMask.GetMask("Platform");
         wallMask = LayerMask.GetMask("Wall");
+        GameEvents.Instance.OnGameStarts += StartPlayer;
+    }
+
+    private void StartPlayer()
+    {
+        moveVector = new Vector2(moveVelocity, 0);
     }
 
     void Update()
