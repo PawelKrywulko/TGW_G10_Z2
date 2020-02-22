@@ -19,10 +19,10 @@ public class PlatformGenerator : MonoBehaviour
     void Start()
     {
         GameEvents.Instance.OnWallTriggerEntered += SetUpPlatforms;
-        SetupPlatformsBeforeStart(10, 5);
+        SetupPlatformsBeforeStart(9, 5f);
     }
 
-    private void SetupPlatformsBeforeStart(int count, int startX)
+    private void SetupPlatformsBeforeStart(int count, float startX)
     {
         for (int i = 0; i < count; i++)
         {

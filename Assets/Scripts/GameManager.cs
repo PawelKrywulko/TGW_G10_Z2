@@ -8,17 +8,29 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] Text titleText;
     [SerializeField] Text bankText;
     [SerializeField] Text collectedCoinsText;
     [SerializeField] Text wallsTouchedText;
     [SerializeField] Text tapToStartText;
+    [SerializeField] Text allCoinsText;
+    [SerializeField] Text bestCoinsText;
+    [SerializeField] Text bestWallsText;
+    [SerializeField] GameObject player;
+    [SerializeField] GameObject bank;
+    [SerializeField] GameObject coins;
 
     string collectedCoinsStr = "COINS COLLECED:";
     string wallsTouchedStr = "WALLS TOUCHED:";
+    string bestCoinsStr = "THE MOST COINS BANKED:";
+    string bestWallsStr = "THE MOST WALLS TOUCHED:";
 
     int bankedCoins = 0;
     int collectedCoins = 0;
     int wallsTouched = 0;
+    int bestCoins = 0;
+    int bestWalls = 0;
+    int allCoins = 0;
 
     bool hasGameStarted = false;
 
@@ -40,15 +52,25 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SubscribeForEvents();
-        ClearTexts();
+        ClearGameTexts();
+        player = Instantiate(player, new Vector2(8.5f, 8), Quaternion.identity);
         StartCoroutine(GameStarts());
     }
 
-    private void ClearTexts()
+    private void ClearGameTexts()
     {
         bankText.text = string.Empty;
         collectedCoinsText.text = string.Empty;
         wallsTouchedText.text = string.Empty;
+    }
+
+    private void ClearMenuTexts()
+    {
+        tapToStartText.text = string.Empty;
+        titleText.text = string.Empty;
+        coins.SetActive(false);
+        bestCoinsText.text = string.Empty;
+        bestWallsText.text = string.Empty;
     }
 
     private IEnumerator GameStarts()
@@ -58,8 +80,9 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
-        tapToStartText.text = string.Empty;
+        ClearMenuTexts();
         hasGameStarted = true;
+        bank = Instantiate(bank, new Vector2(8.5f, 7.93f), Quaternion.identity);
         RefreshGUI();
         GameEvents.Instance.HandleGameStart();
     }
@@ -87,9 +110,19 @@ public class GameManager : MonoBehaviour
 
     public void ManagePlayersDeath()
     {
+        if (bankedCoins > bestCoins)
+            bestCoins = bankedCoins;
+        if (wallsTouched > bestWalls)
+            bestWalls = wallsTouched;
+        allCoins += bankedCoins;
+
         collectedCoins = 0;
         wallsTouched = 0;
         RefreshGUI();
+
+        coins.SetActive(true);
+        bestCoinsText.text = $"{bestCoinsStr} {bestCoins}";
+        bestWallsText.text = $"{bestWallsStr} {bestWalls}";
         StartCoroutine(RestartGame());
     }
 
@@ -105,6 +138,7 @@ public class GameManager : MonoBehaviour
         {
             collectedCoinsText.text = $"{collectedCoinsStr} {collectedCoins}";
             wallsTouchedText.text = $"{wallsTouchedStr} {wallsTouched}";
+            allCoinsText.text = allCoins.ToString();
             bankText.text = bankedCoins.ToString();
         }
     }
