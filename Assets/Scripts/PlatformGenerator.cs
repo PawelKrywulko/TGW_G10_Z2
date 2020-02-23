@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts;
 using Assets.Scripts.Events;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,24 +20,41 @@ public class PlatformGenerator : MonoBehaviour
     void Start()
     {
         GameEvents.Instance.OnWallTriggerEntered += SetUpPlatforms;
-        SetupPlatformsBeforeStart(9, 5f);
+        GameEvents.Instance.OnGameStarts += SetUpPlatformsAfterStart;
+        SetupPlatformsBeforeStart(8.5f);
     }
 
-    private void SetupPlatformsBeforeStart(int count, float startX)
+    private void SetUpPlatformsAfterStart()
     {
-        for (int i = 0; i < count; i++)
+        var activePlatform = platforms.First(platform => platform.activeSelf == true);
+        var remainingPlatforms = platforms.Where(platform => platform.activeSelf == false).ToList();
+
+        var startPosition = activePlatform.transform.position;
+        for (int i = 0; i < 5; i++)
         {
-            var newPlatform = Instantiate(platform, new Vector3(startX++, 5), Quaternion.identity);
-            platforms.Add(newPlatform);
+            var platform = remainingPlatforms[i];
+            platform.transform.position = new Vector3(startPosition.x + i + 1, startPosition.y);
+            platform.SetActive(true);
         }
+    }
+
+    private void SetupPlatformsBeforeStart(float firstPlatformXPos)
+    {
+        Enumerable.Range(0, 10).ToList().ForEach(index =>
+        {
+            var newPlatform = Instantiate(platform, new Vector3(firstPlatformXPos, 5), Quaternion.identity);
+            if(index != 0)
+                newPlatform.SetActive(false);
+            platforms.Add(newPlatform);
+        });
     }
 
     private void SetUpPlatforms(PlayerWallEntered player)
     {
         factor *= -1f;
         platforms.ForEach(platform => platform.SetActive(false));
-        xPos = player.PlayerPosition.x + Random.Range(firstPlatformSpawnLocation.minX, firstPlatformSpawnLocation.maxX) * factor;
-        yPos = player.PlayerPosition.y - Random.Range(firstPlatformSpawnLocation.minY, firstPlatformSpawnLocation.maxY);
+        xPos = player.PlayerPosition.x + UnityEngine.Random.Range(firstPlatformSpawnLocation.minX, firstPlatformSpawnLocation.maxX) * factor;
+        yPos = player.PlayerPosition.y - UnityEngine.Random.Range(firstPlatformSpawnLocation.minY, firstPlatformSpawnLocation.maxY);
         yPos = Mathf.Clamp(yPos, 2f, 7f);
 
         var firstPlatform = platforms[0];
@@ -45,17 +63,17 @@ public class PlatformGenerator : MonoBehaviour
 
         foreach (var platform in platforms.Where(p => p.activeSelf == false))
         {
-            xPos += Random.Range(SpaceBetweenPlatforms.minX, SpaceBetweenPlatforms.maxX) * factor;
-            yPos += Random.Range(SpaceBetweenPlatforms.minY, SpaceBetweenPlatforms.maxY);
+            xPos += UnityEngine.Random.Range(SpaceBetweenPlatforms.minX, SpaceBetweenPlatforms.maxX) * factor;
+            yPos += UnityEngine.Random.Range(SpaceBetweenPlatforms.minY, SpaceBetweenPlatforms.maxY);
 
             yPos = Mathf.Clamp(yPos, 2f, 7f);
 
             if (xPos < 1 || xPos > 16)
                 break;
 
-
             platform.transform.position = new Vector3(xPos, yPos);
             platform.SetActive(true);
+            platform.GetComponent<Platform>().GenerateCoinRandomly();
         }
     }
 }

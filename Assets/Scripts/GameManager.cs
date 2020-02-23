@@ -16,21 +16,21 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text allCoinsText;
     [SerializeField] Text bestCoinsText;
     [SerializeField] Text bestWallsText;
+    [SerializeField] GameObject summary;
     [SerializeField] GameObject player;
     [SerializeField] GameObject bank;
-    [SerializeField] GameObject coins;
 
     string collectedCoinsStr = "COINS COLLECED:";
     string wallsTouchedStr = "WALLS TOUCHED:";
-    string bestCoinsStr = "THE MOST COINS BANKED:";
-    string bestWallsStr = "THE MOST WALLS TOUCHED:";
+    string bestCoinsStr = "COINS BANKED:";
+    string bestWallsStr = "WALLS TOUCHED:";
 
     int bankedCoins = 0;
     int collectedCoins = 0;
     int wallsTouched = 0;
-    int bestCoins = 0;
-    int bestWalls = 0;
-    int allCoins = 0;
+    int bestCoins;
+    int bestWalls;
+    int allCoins;
 
     bool hasGameStarted = false;
 
@@ -51,10 +51,21 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        LoadPlayerData();
         SubscribeForEvents();
         ClearGameTexts();
         player = Instantiate(player, new Vector2(8.5f, 8), Quaternion.identity);
         StartCoroutine(GameStarts());
+    }
+
+    private void LoadPlayerData()
+    {
+        bestCoins = PlayerPrefs.GetInt("BestCoins", 0);
+        bestWalls = PlayerPrefs.GetInt("BestWalls", 0);
+        allCoins = PlayerPrefs.GetInt("AllCoins", 0);
+        allCoinsText.text = allCoins.ToString();
+        bestCoinsText.text = $"{bestCoinsStr} {bestCoins}";
+        bestWallsText.text = $"{bestWallsStr} {bestWalls}";
     }
 
     private void ClearGameTexts()
@@ -68,9 +79,7 @@ public class GameManager : MonoBehaviour
     {
         tapToStartText.text = string.Empty;
         titleText.text = string.Empty;
-        coins.SetActive(false);
-        bestCoinsText.text = string.Empty;
-        bestWallsText.text = string.Empty;
+        summary.SetActive(false);
     }
 
     private IEnumerator GameStarts()
@@ -111,18 +120,22 @@ public class GameManager : MonoBehaviour
     public void ManagePlayersDeath()
     {
         if (bankedCoins > bestCoins)
+        {
             bestCoins = bankedCoins;
+            PlayerPrefs.SetInt("BestCoins", bestCoins);
+        }
         if (wallsTouched > bestWalls)
+        {
             bestWalls = wallsTouched;
+            PlayerPrefs.SetInt("BestWalls", bestWalls);
+        }
+
         allCoins += bankedCoins;
+        PlayerPrefs.SetInt("AllCoins", allCoins);
 
         collectedCoins = 0;
         wallsTouched = 0;
         RefreshGUI();
-
-        coins.SetActive(true);
-        bestCoinsText.text = $"{bestCoinsStr} {bestCoins}";
-        bestWallsText.text = $"{bestWallsStr} {bestWalls}";
         StartCoroutine(RestartGame());
     }
 
@@ -136,9 +149,8 @@ public class GameManager : MonoBehaviour
     {
         if (hasGameStarted)
         {
-            collectedCoinsText.text = $"{collectedCoinsStr} {collectedCoins}";
-            wallsTouchedText.text = $"{wallsTouchedStr} {wallsTouched}";
-            allCoinsText.text = allCoins.ToString();
+            collectedCoinsText.text = $"{collectedCoinsStr} <color=#FFFF00>{collectedCoins}</color>";
+            wallsTouchedText.text = $"{wallsTouchedStr} <color=#ffa500ff>{wallsTouched}</color>";
             bankText.text = bankedCoins.ToString();
         }
     }

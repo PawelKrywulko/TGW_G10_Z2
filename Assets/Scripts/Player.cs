@@ -113,7 +113,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Coin"))
         {
-            GameEvents.Instance.HandleCoinTriggerEntered();
+            GameEvents.Instance.HandleCoinTriggerEntered(); 
             collision.gameObject.SetActive(false);
         }
 
