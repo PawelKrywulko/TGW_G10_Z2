@@ -1,8 +1,4 @@
 ﻿using Assets.Scripts.Events;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -35,7 +31,7 @@ public class Player : MonoBehaviour
         moveVector = new Vector2(0, 0);
         platformMask = LayerMask.GetMask("Platform");
         wallMask = LayerMask.GetMask("Wall");
-        GameEvents.Instance.OnGameStarts += StartPlayer;
+           GameEvents.Instance.OnGameStarts += StartPlayer;
     }
 
     private void StartPlayer()
