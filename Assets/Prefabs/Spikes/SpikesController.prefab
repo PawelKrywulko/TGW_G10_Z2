@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2779709464070783310
+--- !u!1 &4324935220687006535
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2779709464070783304}
-  - component: {fileID: 2779709464070783311}
+  - component: {fileID: 4324935220687006533}
+  - component: {fileID: 4324935220687006534}
   m_Layer: 0
-  m_Name: PlatformGenerator
+  m_Name: SpikesController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2779709464070783304
+--- !u!4 &4324935220687006533
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2779709464070783310}
+  m_GameObject: {fileID: 4324935220687006535}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,27 +31,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2779709464070783311
+--- !u!114 &4324935220687006534
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2779709464070783310}
+  m_GameObject: {fileID: 4324935220687006535}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e1ac3fd4da703e4ba63990130f1c729, type: 3}
+  m_Script: {fileID: 11500000, guid: 79a4740c3dc1dec4b900018d3e2dacd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platform: {fileID: 6852569468444251219, guid: 8dc402b49d8d1ff41aad222188fead45,
-    type: 3}
-  firstPlatformSpawnLocation:
-    minX: 2
-    maxX: 3
-    minY: 1
-    maxY: 2
-  SpaceBetweenPlatforms:
-    minX: 2.5
-    maxX: 4
-    minY: -1.5
-    maxY: 1.5
+  spikeContainers:
+  - {fileID: 0}
+  - {fileID: 0}
+  timeToNextSpike: 1
+  animationTime: 3
+  spikeOffset: 0.5

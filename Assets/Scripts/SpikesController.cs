@@ -8,45 +8,20 @@ public class SpikesController : MonoBehaviour
 {
     [SerializeField] private List<GameObject> spikeContainers;
     [SerializeField] private float timeToNextSpike;
+    [SerializeField] private float animationTime = 4f;
+    [SerializeField] private float spikeOffset = 0.4f;
 
     private Dictionary<string, List<Transform>> spikeWalls;
-    private float spikeOffset = 0.8f;
 
     void Start()
     {
-        GameEvents.Instance.OnGameStarts += RunCoroutine;
+        GameEvents.Instance.OnGameStarts += ResetAllSpikes;
         GameEvents.Instance.OnBankTriggerEntered += ResetAllSpikes;
-
-        ResetAllSpikes();
-    }
-
-    void RunCoroutine()
-    {
-        StartCoroutine(StartTimer(timeToNextSpike));
-    }
-
-    IEnumerator StartTimer(float time)
-    {
-        while(spikeWalls.SelectMany(x => x.Value).ToList().Count != 0)
-        {
-            yield return new WaitForSeconds(time);
-            DrawSpike();
-        }
-    }
-
-    void DrawSpike()
-    {
-        var spikeWallNames = spikeWalls.Keys.ToList();
-        var randomName = spikeWallNames[UnityEngine.Random.Range(0, spikeWalls.Count)];
-        var spikes = spikeWalls[randomName];
-        if (spikes.Count == 0) return;
-        var concreteSpike = spikes[UnityEngine.Random.Range(0, spikes.Count)];
-        concreteSpike.transform.localPosition += new Vector3(randomName == "Left" ? spikeOffset : -spikeOffset, 0);
-        spikeWalls[randomName] = spikeWalls[randomName].Where(x => x != concreteSpike).ToList();
     }
 
     private void ResetAllSpikes()
     {
+        StopAllCoroutines();
         spikeWalls = new Dictionary<string, List<Transform>>();
         foreach (var container in spikeContainers)
         {
@@ -57,5 +32,40 @@ public class SpikesController : MonoBehaviour
             }
             spikeWalls.Add(container.name, spikesList);
         }
+
+        StartCoroutine(StartTimer(timeToNextSpike));
     }
+
+    IEnumerator StartTimer(float time)
+    {
+        while(spikeWalls.SelectMany(x => x.Value).ToList().Count != 0)
+        {
+            yield return new WaitForSeconds(time);
+            yield return DrawSpike();
+        }
+    }
+
+    IEnumerator DrawSpike()
+    {
+        var spikeWallNames = spikeWalls.Where(x => x.Value.Count != 0).Select(x => x.Key).ToList();
+        var randomName = spikeWallNames[UnityEngine.Random.Range(0, spikeWalls.Count)];
+        var spikes = spikeWalls[randomName];
+        var concreteSpike = spikes[UnityEngine.Random.Range(0, spikes.Count)];
+        
+        var originPosition = concreteSpike.localPosition;
+        var newXPos = concreteSpike.localPosition.x + (randomName == "Left" ? spikeOffset : -spikeOffset);
+        var newPosition = new Vector3(newXPos, concreteSpike.localPosition.y);
+
+        spikeWalls[randomName] = spikeWalls[randomName].Where(x => x != concreteSpike).ToList();
+        
+        float journey = 0;
+        while (journey <= animationTime)
+        {
+            journey += Time.deltaTime;
+            var percent = Mathf.Clamp01(journey / animationTime);
+            concreteSpike.localPosition = Vector3.Lerp(originPosition, newPosition, percent);
+            yield return null;
+        }
+    }
+
 }

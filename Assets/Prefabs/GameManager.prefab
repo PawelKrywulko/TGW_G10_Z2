@@ -43,5 +43,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 574e8497c4a251944808206d75f4dfc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  titleText: {fileID: 0}
   bankText: {fileID: 0}
   collectedCoinsText: {fileID: 0}
+  wallsTouchedText: {fileID: 0}
+  tapToStartText: {fileID: 0}
+  allCoinsText: {fileID: 0}
+  bestCoinsText: {fileID: 0}
+  bestWallsText: {fileID: 0}
+  summary: {fileID: 0}
+  player: {fileID: 5250468366115528769, guid: 430c797660f74914794c1959b4e0c03d, type: 3}
+  bank: {fileID: 4814817138874875999, guid: 47ac68527f0399e4096d923676a02bde, type: 3}

@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour
         ClearMenuTexts();
         hasGameStarted = true;
         bank = Instantiate(bank, new Vector2(8.5f, 7.93f), Quaternion.identity);
+        bank.GetComponent<UISticker>().AssignLabel(bankText);
         RefreshGUI();
         GameEvents.Instance.HandleGameStart();
     }
