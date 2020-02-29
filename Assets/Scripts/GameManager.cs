@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] Text titleText;
-    [SerializeField] Text bankText;
     [SerializeField] Text collectedCoinsText;
     [SerializeField] Text wallsTouchedText;
     [SerializeField] Text tapToStartText;
@@ -23,14 +22,16 @@ public class GameManager : MonoBehaviour
     string bestCoinsStr = "COINS BANKED:";
     string bestWallsStr = "WALLS TOUCHED:";
 
-    int bankedCoins = 0;
-    int collectedCoins = 0;
-    int wallsTouched = 0;
+    public static int collectedCoins;
+    int bankedCoins;
+    int wallsTouched;
     int bestCoins;
     int bestWalls;
     int allCoins;
 
     bool hasGameStarted = false;
+    Text bankText;
+    CanvasGroup summaryCanvasGroup;
 
     public static GameManager Instance { get; private set; }
 
@@ -49,10 +50,14 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        bankedCoins = 0;
+        collectedCoins = 0;
+        wallsTouched = 0;
         LoadPlayerData();
         SubscribeForEvents();
         ClearGameTexts();
         player = Instantiate(player, new Vector2(8.5f, 8), Quaternion.identity);
+        summaryCanvasGroup = summary.GetComponent<CanvasGroup>();
         StartCoroutine(GameStarts());
     }
 
@@ -68,13 +73,21 @@ public class GameManager : MonoBehaviour
 
     private void ClearGameTexts()
     {
-        bankText.text = string.Empty;
         collectedCoinsText.text = string.Empty;
         wallsTouchedText.text = string.Empty;
     }
 
-    private void ClearMenuTexts()
+    private IEnumerator ClearMenuTexts()
     {
+        float transparency = 1f;
+        while (transparency > 0f)
+        {
+            transparency -= Time.deltaTime;
+            titleText.color = new Color(titleText.color.r, titleText.color.g, titleText.color.b, transparency);
+            tapToStartText.color = new Color(titleText.color.r, tapToStartText.color.g, tapToStartText.color.b, transparency);
+            summaryCanvasGroup.alpha = transparency;
+            yield return null;
+        }
         tapToStartText.text = string.Empty;
         titleText.text = string.Empty;
         summary.SetActive(false);
@@ -82,15 +95,16 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator GameStarts()
     {
+        yield return new WaitForSeconds(0.5f);
         while(!Input.GetMouseButton(0) && Input.touchCount != 1)
         {
             yield return null;
         }
 
-        ClearMenuTexts();
+        StartCoroutine(ClearMenuTexts());
         hasGameStarted = true;
-        bank = Instantiate(bank, new Vector2(8.5f, 7.93f), Quaternion.identity);
-        bank.GetComponent<UISticker>().AssignLabel(bankText);
+        bank = Instantiate(bank, new Vector2(8.5f, 5.5f), Quaternion.identity);
+        bankText = bank.transform.Find("Canvas").transform.Find("CoinsInBankText").GetComponent<Text>();
         RefreshGUI();
         GameEvents.Instance.HandleGameStart();
     }

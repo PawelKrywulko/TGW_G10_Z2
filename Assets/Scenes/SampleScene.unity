@@ -283,18 +283,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1843784912 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 280282600724850864, guid: e222507c81693ea42acfea7eb2c15275,
-    type: 3}
-  m_PrefabInstance: {fileID: 280282600256865376}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1891907523 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9087219364998281726, guid: bc3baa7ddc4eba14c809173e2dd6cc09,
@@ -312,6 +300,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Main Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 280282599435375021, guid: e222507c81693ea42acfea7eb2c15275,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 280282599435375025, guid: e222507c81693ea42acfea7eb2c15275,
         type: 3}
@@ -526,6 +519,11 @@ PrefabInstance:
     - target: {fileID: 280282600668521226, guid: e222507c81693ea42acfea7eb2c15275,
         type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 280282600724850862, guid: e222507c81693ea42acfea7eb2c15275,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 280282601243563056, guid: e222507c81693ea42acfea7eb2c15275,
@@ -967,6 +965,21 @@ PrefabInstance:
       propertyPath: spikeContainers.Array.data[1]
       value: 
       objectReference: {fileID: 1891907523}
+    - target: {fileID: 4324935220687006534, guid: 044c80d94ed77f141aa87db10d771f75,
+        type: 3}
+      propertyPath: animationTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4324935220687006534, guid: 044c80d94ed77f141aa87db10d771f75,
+        type: 3}
+      propertyPath: spikeOffset
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4324935220687006534, guid: 044c80d94ed77f141aa87db10d771f75,
+        type: 3}
+      propertyPath: hidingMethod
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4324935220687006535, guid: 044c80d94ed77f141aa87db10d771f75,
         type: 3}
       propertyPath: m_Name
@@ -1119,7 +1132,7 @@ PrefabInstance:
         type: 3}
       propertyPath: bankText
       value: 
-      objectReference: {fileID: 1843784912}
+      objectReference: {fileID: 0}
     - target: {fileID: 8885355074390918679, guid: bd252a61e9417104695d3aab3708d588,
         type: 3}
       propertyPath: collectedCoinsText

@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
         moveVector = new Vector2(0, 0);
         platformMask = LayerMask.GetMask("Platform");
         wallMask = LayerMask.GetMask("Wall");
-           GameEvents.Instance.OnGameStarts += StartPlayer;
+        GameEvents.Instance.OnGameStarts += StartPlayer;
     }
 
     private void StartPlayer()
@@ -83,7 +83,8 @@ public class Player : MonoBehaviour
 
             GameEvents.Instance.HandleWallTriggerEntered(new PlayerWallEntered
             {
-                PlayerPosition = transform.position
+                PlayerPosition = transform.position,
+                EnteredWallName = collision.gameObject.name
             });
         }
     }
@@ -113,7 +114,7 @@ public class Player : MonoBehaviour
             collision.gameObject.SetActive(false);
         }
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Bank"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Bank") && GameManager.collectedCoins != 0)
         {
             GameEvents.Instance.HandleBankTriggerEntered();
         }
