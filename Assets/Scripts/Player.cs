@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Events;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
@@ -142,7 +143,10 @@ public class Player : MonoBehaviour
         #region Mobile Input
         if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            HandleJumping();
+            if (!EventSystem.current.IsPointerOverGameObject(Input.touches[0].fingerId))
+            {
+                HandleJumping();
+            }
         }
         #endregion
     }
@@ -156,6 +160,7 @@ public class Player : MonoBehaviour
                 moveVector = new Vector2(moveVelocity, 0) * directionFactor;
             }
 
+            AudioManager.Instance.Play("Jump", "SfxEnabled");
             playerRigidbody.velocity = jumpVector;
             canDoubleJump = true;
         }
@@ -163,6 +168,7 @@ public class Player : MonoBehaviour
         {
             if (canDoubleJump && doubleJumpEnabled)
             {
+                AudioManager.Instance.Play("Jump", "SfxEnabled");
                 playerRigidbody.velocity = jumpVector;
                 canDoubleJump = false;
             }

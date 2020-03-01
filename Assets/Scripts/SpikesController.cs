@@ -44,20 +44,17 @@ public class SpikesController : MonoBehaviour
     {
         if (hidingMethod == 1)
         {
-            foreach (var spikeWall in spikeWalls)
+            foreach (var spike in spikeWalls.SelectMany(x => x.Value).Where(spike => spike.localPosition.x != 0).OrderBy(x => Guid.NewGuid()))
             {
-                foreach (var spike in spikeWall.Value.Where(spike => spike.localPosition.x != 0))
+                var originPosition = spike.localPosition;
+                var newPosition = new Vector3(0, spike.localPosition.y);
+                float journey = 0;
+                while (journey <= animationTime)
                 {
-                    var originPosition = spike.localPosition;
-                    var newPosition = new Vector3(0, spike.localPosition.y);
-                    float journey = 0;
-                    while (journey <= animationTime)
-                    {
-                        journey += Time.deltaTime;
-                        var percent = Mathf.Clamp01(journey / animationTime);
-                        spike.localPosition = Vector3.Lerp(originPosition, newPosition, percent);
-                        yield return null;
-                    }
+                    journey += Time.deltaTime;
+                    var percent = Mathf.Clamp01(journey / animationTime);
+                    spike.localPosition = Vector3.Lerp(originPosition, newPosition, percent);
+                    yield return null;
                 }
             }
         }

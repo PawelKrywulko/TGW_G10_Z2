@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8451118099244476852
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8451118099244476850}
+  - component: {fileID: 8451118099244476851}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8451118099244476850
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8451118099244476852}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8451118099244476851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8451118099244476852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5349faa5649cde4b81c96c4bfadf337, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Death
+    loop: 0
+    clip: {fileID: 8300000, guid: 2ec0db53c68602f42b0e21c6bdb3bcc2, type: 3}
+    volume: 0.5
+    pitch: 2
+    source: {fileID: 0}
+  - name: Theme
+    loop: 1
+    clip: {fileID: 8300000, guid: c2a7f7ad1763304468b4f1111244c3ae, type: 3}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+  - name: Bank
+    loop: 0
+    clip: {fileID: 8300000, guid: 4b6a8c893e2ab1a4d8f89a17e62ed068, type: 3}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+  - name: Coin
+    loop: 0
+    clip: {fileID: 8300000, guid: f3e00c09aa8b5fc4a885f54c031740a4, type: 3}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+  - name: Wall
+    loop: 0
+    clip: {fileID: 8300000, guid: f6714a7de0640d04aa94ff381cc626fb, type: 3}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+  - name: Jump
+    loop: 0
+    clip: {fileID: 8300000, guid: e8c088fe30635d6418d240db857bb5c1, type: 3}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
