@@ -24,6 +24,7 @@ public class GameEvents : MonoBehaviour
     public event Action OnCoinTriggerEntered;
     public event Action OnSpikeTriggerEntered;
     public event Action OnGameStarts;
+    public event Action<ItemInShopBought> OnItemInShopBought;
 
     public void HandleWallTriggerEntered(PlayerWallEntered eventData)
     {
@@ -48,5 +49,10 @@ public class GameEvents : MonoBehaviour
     public void HandleGameStart()
     {
         OnGameStarts?.Invoke();
+    }
+
+    public void HandleItemInShopBought(ItemInShopBought itemData)
+    {
+        OnItemInShopBought?.Invoke(itemData);
     }
 }

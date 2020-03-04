@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Events;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -25,6 +26,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        SetPlayerColor();
         playerRigidbody = GetComponent<Rigidbody2D>();
         platformChecker = transform.Find("PlatformChecker").GetComponent<BoxCollider2D>();
         wallChecker = transform.Find("WallChecker").GetComponent<BoxCollider2D>();
@@ -33,6 +35,7 @@ public class Player : MonoBehaviour
         platformMask = LayerMask.GetMask("Platform");
         wallMask = LayerMask.GetMask("Wall");
         GameEvents.Instance.OnGameStarts += StartPlayer;
+        GameEvents.Instance.OnItemInShopBought += ChangePlayerColor;
     }
 
     private void StartPlayer()
@@ -175,8 +178,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ResetPosition()
+    private void ChangePlayerColor(ItemInShopBought item)
     {
-        SceneManager.LoadScene(0);
+        GetComponent<SpriteRenderer>().color = item.ItemColor;
+    }
+
+    private void SetPlayerColor()
+    {
+        string currentColorHash = PlayerPrefs.GetString("CurrentPlayerColor", "#000000");
+        ColorUtility.TryParseHtmlString(currentColorHash, out Color color);
+        GetComponent<SpriteRenderer>().color = color;
     }
 }

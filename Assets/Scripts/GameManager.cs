@@ -1,6 +1,8 @@
 ﻿using Assets.Scripts.Events;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -19,8 +21,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] Button sfxButton;
     [SerializeField] GameObject summary;
     [SerializeField] GameObject soundButtons;
+    [SerializeField] GameObject otherButtons;
     [SerializeField] GameObject player;
     [SerializeField] GameObject bank;
+    [SerializeField] GameObject shopCanvas;
     [SerializeField] List<Sprite> musicSprites;
     [SerializeField] List<Sprite> sfxSprites;
 
@@ -34,27 +38,15 @@ public class GameManager : MonoBehaviour
     int wallsTouched;
     int bestCoins;
     int bestWalls;
-    int allCoins;
+    public static int allCoins;
 
     bool hasGameStarted = false;
     Text bankText;
     CanvasGroup summaryCanvasGroup;
-    CanvasGroup musicButtonsCanvasGroup;
+    CanvasGroup soundButtonsCanvasGroup;
+    CanvasGroup otherButtonsCanvasGroup;
 
     public static GameManager Instance { get; private set; }
-
-    private void Awake()
-    {
-        if(Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            //DontDestroyOnLoad(gameObject);
-        }
-    }
 
     void Update()
     {
@@ -73,7 +65,8 @@ public class GameManager : MonoBehaviour
         ClearGameTexts();
         player = Instantiate(player, new Vector2(8.5f, 8), Quaternion.identity);
         summaryCanvasGroup = summary.GetComponent<CanvasGroup>();
-        musicButtonsCanvasGroup = soundButtons.GetComponent<CanvasGroup>();
+        soundButtonsCanvasGroup = soundButtons.GetComponent<CanvasGroup>();
+        otherButtonsCanvasGroup = otherButtons.GetComponent<CanvasGroup>();
         StartCoroutine(GameStarts());
     }
 
@@ -104,13 +97,15 @@ public class GameManager : MonoBehaviour
             titleText.color = new Color(titleText.color.r, titleText.color.g, titleText.color.b, transparency);
             tapToStartText.color = new Color(titleText.color.r, tapToStartText.color.g, tapToStartText.color.b, transparency);
             summaryCanvasGroup.alpha = transparency;
-            musicButtonsCanvasGroup.alpha = transparency;
+            soundButtonsCanvasGroup.alpha = transparency;
+            otherButtonsCanvasGroup.alpha = transparency;
             yield return null;
         }
         tapToStartText.text = string.Empty;
         titleText.text = string.Empty;
         summary.SetActive(false);
         soundButtons.SetActive(false);
+        otherButtons.SetActive(false);
     }
 
     private IEnumerator GameStarts()
@@ -122,6 +117,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
 
+        DisableAllButtons();
         StartCoroutine(ClearMenuTexts());
         bank = Instantiate(bank, new Vector2(8.5f, 5.5f), Quaternion.identity);
         bankText = bank.transform.Find("Canvas").transform.Find("CoinsInBankText").GetComponent<Text>();
@@ -135,6 +131,7 @@ public class GameManager : MonoBehaviour
         GameEvents.Instance.OnCoinTriggerEntered += UpdateCollectedCoins;
         GameEvents.Instance.OnSpikeTriggerEntered += ManagePlayersDeath;
         GameEvents.Instance.OnWallTriggerEntered += UpdateWallsTouched;
+        GameEvents.Instance.OnItemInShopBought += ManagePurchase;
     }
 
     private void UpdateBankedCoins()
@@ -233,5 +230,30 @@ public class GameManager : MonoBehaviour
         }
 #endif
         #endregion
+    }
+
+    public void SwitchShopView()
+    {
+        if (shopCanvas.activeSelf) 
+            shopCanvas.SetActive(false);
+        else 
+            shopCanvas.SetActive(true);
+    }
+
+    private void ManagePurchase(ItemInShopBought item)
+    {
+        allCoins -= item.ItemPrice;
+        PlayerPrefs.SetInt("AllCoins", allCoins);
+        allCoinsText.text = allCoins.ToString();
+    }
+
+    private void DisableAllButtons()
+    {
+        var buttons = soundButtons.transform.GetComponentsInChildren<Button>();
+        var otherBtns = otherButtons.transform.GetComponentsInChildren<Button>();
+        foreach (var button in buttons.Union(otherBtns))
+        {
+            button.interactable = false;
+        }
     }
 }
