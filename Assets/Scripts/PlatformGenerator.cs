@@ -9,6 +9,7 @@ public class PlatformGenerator : MonoBehaviour
     [SerializeField] GameObject platform = null;
     [SerializeField] MinMaxPosition firstPlatformSpawnLocation = default;
     [SerializeField] MinMaxPosition SpaceBetweenPlatforms = default;
+    [SerializeField] bool spawnMultiplePlatforms = false;
 
     List<GameObject> platforms = new List<GameObject>();
     float factor = 1;
@@ -38,7 +39,8 @@ public class PlatformGenerator : MonoBehaviour
 
     private void SetupPlatformsBeforeStart(float firstPlatformXPos)
     {
-        Enumerable.Range(0, 10).ToList().ForEach(index =>
+        int platformsCount = spawnMultiplePlatforms ? 25 : 10;
+        Enumerable.Range(0, platformsCount).ToList().ForEach(index =>
         {
             var newPlatform = Instantiate(platform, new Vector3(firstPlatformXPos, 5), Quaternion.identity);
             if(index != 0)
@@ -51,27 +53,57 @@ public class PlatformGenerator : MonoBehaviour
     {
         factor *= -1f;
         platforms.ForEach(platform => platform.SetActive(false));
-        xPos = player.PlayerPosition.x + UnityEngine.Random.Range(firstPlatformSpawnLocation.minX, firstPlatformSpawnLocation.maxX) * factor;
-        yPos = player.PlayerPosition.y - UnityEngine.Random.Range(firstPlatformSpawnLocation.minY, firstPlatformSpawnLocation.maxY);
+        xPos = player.PlayerPosition.x + Random.Range(firstPlatformSpawnLocation.minX, firstPlatformSpawnLocation.maxX) * factor;
+        yPos = player.PlayerPosition.y - Random.Range(firstPlatformSpawnLocation.minY, firstPlatformSpawnLocation.maxY);
         yPos = Mathf.Clamp(yPos, 2f, 7f);
 
         var firstPlatform = platforms[0];
         firstPlatform.transform.position = new Vector3(xPos, yPos);
         firstPlatform.SetActive(true);
 
+        bool spawnAdditional = false;
+        Vector3 lastlySpawnedPosition = Vector3.zero;
         foreach (var platform in platforms.Where(p => p.activeSelf == false))
         {
-            xPos += UnityEngine.Random.Range(SpaceBetweenPlatforms.minX, SpaceBetweenPlatforms.maxX) * factor;
-            yPos += UnityEngine.Random.Range(SpaceBetweenPlatforms.minY, SpaceBetweenPlatforms.maxY);
+            if (!spawnAdditional)
+            {
+                xPos += Random.Range(SpaceBetweenPlatforms.minX, SpaceBetweenPlatforms.maxX) * factor;
+                yPos += Random.Range(SpaceBetweenPlatforms.minY, SpaceBetweenPlatforms.maxY);
+                
 
-            yPos = Mathf.Clamp(yPos, 2f, 7f);
+                yPos = Mathf.Clamp(yPos, 2f, 7f);
 
-            if (xPos < 1 || xPos > 16)
-                break;
+                if (xPos < 1 || xPos > 16)
+                    break;
 
-            platform.transform.position = new Vector3(xPos, yPos);
+                lastlySpawnedPosition = new Vector3(xPos, yPos);
+            } 
+            if(spawnAdditional && lastlySpawnedPosition.y + 1.5f <= 8 && lastlySpawnedPosition.y - 1.5f >= 1.5f)
+            {
+                float additionalYPos = 0;
+                if (Random.Range(0,2) == 1)
+                {
+                    additionalYPos = Random.Range(lastlySpawnedPosition.y + 1.5f, 8f);
+                } 
+                else
+                {
+                    additionalYPos = Random.Range(1.5f, lastlySpawnedPosition.y - 1.5f);
+                }
+                lastlySpawnedPosition = new Vector3(lastlySpawnedPosition.x, additionalYPos);
+            }
+
+            platform.transform.position = lastlySpawnedPosition;
             platform.SetActive(true);
             platform.GetComponent<Platform>().GenerateCoinRandomly();
+            if(spawnAdditional)
+            {
+                spawnAdditional = false;
+                continue;
+            }
+            if(spawnMultiplePlatforms)
+            {
+                spawnAdditional = Random.Range(0, 2) == 1 ? true : false;
+            }
         }
     }
 }
