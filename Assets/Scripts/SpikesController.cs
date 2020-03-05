@@ -85,6 +85,8 @@ public class SpikesController : MonoBehaviour
     {
         wallName = wallName.Contains("Left") ? "Right" : "Left";
         var spikes = spikeWalls[wallName].Where(spike => spike.localPosition.x == 0).ToList();
+
+        if (spikes.Count == 0) yield break;
         
         var concreteSpike = spikes[UnityEngine.Random.Range(0, spikes.Count)];
         var originPosition = concreteSpike.localPosition;

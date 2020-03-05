@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
         float transparency = 1f;
         while (transparency > 0f)
         {
-            transparency -= Time.deltaTime;
+            transparency -= Time.deltaTime * 2;
             titleText.color = new Color(titleText.color.r, titleText.color.g, titleText.color.b, transparency);
             tapToStartText.color = new Color(titleText.color.r, tapToStartText.color.g, tapToStartText.color.b, transparency);
             summaryCanvasGroup.alpha = transparency;

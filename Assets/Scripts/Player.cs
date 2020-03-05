@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] private bool wallSlidingEnabled = true;
     [SerializeField] private bool doubleJumpEnabled = true;
     [SerializeField] private float maxWallSlideVelocity = 1f;
+    [SerializeField] private Animator animator;
 
     //private variables
     private float directionFactor = 1f;
@@ -45,6 +46,15 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if(platformChecker.IsTouchingLayers(platformMask) || wallChecker.IsTouchingLayers(wallMask))
+        {
+            animator.SetBool("IsJumping", false);
+        }
+        else
+        {
+            animator.SetBool("IsJumping", true);
+        }
+
         Jump();
         Move();
         WallSlide();
@@ -83,13 +93,37 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
-            OnWallTouch();
+            if (collision.gameObject.CompareTag("LeftWall"))
+            {
+                animator.SetBool("IsSlidingLeft", true);
+            }
+            if (collision.gameObject.CompareTag("RightWall"))
+            {
+                animator.SetBool("IsSlidingRight", true);
+            }
 
+            OnWallTouch();
+            
             GameEvents.Instance.HandleWallTriggerEntered(new PlayerWallEntered
             {
                 PlayerPosition = transform.position,
                 EnteredWallName = collision.gameObject.name
             });
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            if (collision.gameObject.CompareTag("LeftWall"))
+            {
+                animator.SetBool("IsSlidingLeft", false);
+            }
+            if (collision.gameObject.CompareTag("RightWall"))
+            {
+                animator.SetBool("IsSlidingRight", false);
+            }
         }
     }
 

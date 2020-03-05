@@ -954,6 +954,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Walls
       objectReference: {fileID: 0}
+    - target: {fileID: 707697164850028028, guid: 345c0f0e44615b84bab9545b9be36a76,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 707697164850028028, guid: 345c0f0e44615b84bab9545b9be36a76,
+        type: 3}
+      propertyPath: m_TagString
+      value: LeftWall
+      objectReference: {fileID: 0}
+    - target: {fileID: 707697165110085270, guid: 345c0f0e44615b84bab9545b9be36a76,
+        type: 3}
+      propertyPath: m_TagString
+      value: RightWall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 345c0f0e44615b84bab9545b9be36a76, type: 3}
 --- !u!1001 &885139176971057763
