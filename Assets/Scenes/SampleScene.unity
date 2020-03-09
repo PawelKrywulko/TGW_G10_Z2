@@ -1238,6 +1238,26 @@ PrefabInstance:
       propertyPath: spawnMultiplePlatforms
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2779709464070783311, guid: 0a195edde97483442a1003bbcb8d2cff,
+        type: 3}
+      propertyPath: spaceBetweenPlatforms.minY
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2779709464070783311, guid: 0a195edde97483442a1003bbcb8d2cff,
+        type: 3}
+      propertyPath: spaceBetweenPlatforms.maxY
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2779709464070783311, guid: 0a195edde97483442a1003bbcb8d2cff,
+        type: 3}
+      propertyPath: spaceBetweenPlatforms.minX
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2779709464070783311, guid: 0a195edde97483442a1003bbcb8d2cff,
+        type: 3}
+      propertyPath: spaceBetweenPlatforms.maxX
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a195edde97483442a1003bbcb8d2cff, type: 3}
 --- !u!1001 &3747205198214367587
