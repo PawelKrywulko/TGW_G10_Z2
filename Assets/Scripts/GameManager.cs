@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.Events;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +9,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] int wallTouchesToIncreaseLevel = 5;
     [SerializeField] Text titleText;
     [SerializeField] Text collectedCoinsText;
     [SerializeField] Text wallsTouchedText;
@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
         if (hasGameStarted)
             return;
         CheckForUIInput();
@@ -72,8 +74,8 @@ public class GameManager : MonoBehaviour
 
     private void LoadPlayerData()
     {
-        musicButton.image.sprite = musicSprites[PlayerPrefs.GetInt("MusicEnabled")];
-        sfxButton.image.sprite = sfxSprites[PlayerPrefs.GetInt("SfxEnabled")];
+        musicButton.image.sprite = musicSprites[PlayerPrefs.GetInt("MusicEnabled", 1)];
+        sfxButton.image.sprite = sfxSprites[PlayerPrefs.GetInt("SfxEnabled", 1)];
         bestCoins = PlayerPrefs.GetInt("BestCoins", 0);
         bestWalls = PlayerPrefs.GetInt("BestWalls", 0);
         allCoins = PlayerPrefs.GetInt("AllCoins", 0);
@@ -173,6 +175,12 @@ public class GameManager : MonoBehaviour
     {
         AudioManager.Instance.Play("Wall", "SfxEnabled");
         wallsTouched++;
+        
+        if(wallsTouched > 0 && wallsTouched % wallTouchesToIncreaseLevel == 0)
+        {
+            GameEvents.Instance.HandleIncreasedLevel();
+        }
+
         RefreshGUI();
     }
 

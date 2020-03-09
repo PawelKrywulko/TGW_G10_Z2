@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts;
 using Assets.Scripts.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,7 +9,8 @@ public class PlatformGenerator : MonoBehaviour
 {
     [SerializeField] GameObject platform = null;
     [SerializeField] MinMaxPosition firstPlatformSpawnLocation = default;
-    [SerializeField] MinMaxPosition SpaceBetweenPlatforms = default;
+    [SerializeField] MinMaxPosition spaceBetweenPlatforms = default;
+    [SerializeField] float spaceIncreaser = 0.05f;
     [SerializeField] bool spawnMultiplePlatforms = false;
 
     List<GameObject> platforms = new List<GameObject>();
@@ -20,6 +22,7 @@ public class PlatformGenerator : MonoBehaviour
     {
         GameEvents.Instance.OnWallTriggerEntered += SetUpPlatforms;
         GameEvents.Instance.OnGameStarts += SetUpPlatformsAfterStart;
+        GameEvents.Instance.OnLevelIncreased += IncreasePlatformSpawnValues;
         SetupPlatformsBeforeStart(8.5f);
     }
 
@@ -53,8 +56,8 @@ public class PlatformGenerator : MonoBehaviour
     {
         factor *= -1f;
         platforms.ForEach(platform => platform.SetActive(false));
-        xPos = player.PlayerPosition.x + Random.Range(firstPlatformSpawnLocation.minX, firstPlatformSpawnLocation.maxX) * factor;
-        yPos = player.PlayerPosition.y - Random.Range(firstPlatformSpawnLocation.minY, firstPlatformSpawnLocation.maxY);
+        xPos = player.PlayerPosition.x + UnityEngine.Random.Range(firstPlatformSpawnLocation.minX, firstPlatformSpawnLocation.maxX) * factor;
+        yPos = player.PlayerPosition.y - UnityEngine.Random.Range(firstPlatformSpawnLocation.minY, firstPlatformSpawnLocation.maxY);
         yPos = Mathf.Clamp(yPos, 2f, 7f);
 
         var firstPlatform = platforms[0];
@@ -67,8 +70,8 @@ public class PlatformGenerator : MonoBehaviour
         {
             if (!spawnAdditional)
             {
-                xPos += Random.Range(SpaceBetweenPlatforms.minX, SpaceBetweenPlatforms.maxX) * factor;
-                yPos += Random.Range(SpaceBetweenPlatforms.minY, SpaceBetweenPlatforms.maxY);
+                xPos += UnityEngine.Random.Range(spaceBetweenPlatforms.minX, spaceBetweenPlatforms.maxX) * factor;
+                yPos += UnityEngine.Random.Range(spaceBetweenPlatforms.minY, spaceBetweenPlatforms.maxY);
                 
 
                 yPos = Mathf.Clamp(yPos, 2f, 7f);
@@ -81,13 +84,13 @@ public class PlatformGenerator : MonoBehaviour
             if(spawnAdditional && lastlySpawnedPosition.y + 1.5f <= 8 && lastlySpawnedPosition.y - 1.5f >= 1.5f)
             {
                 float additionalYPos = 0;
-                if (Random.Range(0,2) == 1)
+                if (UnityEngine.Random.Range(0,2) == 1)
                 {
-                    additionalYPos = Random.Range(lastlySpawnedPosition.y + 1.5f, 8f);
+                    additionalYPos = UnityEngine.Random.Range(lastlySpawnedPosition.y + 1.5f, 8f);
                 } 
                 else
                 {
-                    additionalYPos = Random.Range(1.5f, lastlySpawnedPosition.y - 1.5f);
+                    additionalYPos = UnityEngine.Random.Range(1.5f, lastlySpawnedPosition.y - 1.5f);
                 }
                 lastlySpawnedPosition = new Vector3(lastlySpawnedPosition.x, additionalYPos);
             }
@@ -102,8 +105,21 @@ public class PlatformGenerator : MonoBehaviour
             }
             if(spawnMultiplePlatforms)
             {
-                spawnAdditional = Random.Range(0, 2) == 1 ? true : false;
+                spawnAdditional = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
             }
         }
+    }
+
+    private void IncreasePlatformSpawnValues()
+    {
+        firstPlatformSpawnLocation.minX += spaceIncreaser;
+        firstPlatformSpawnLocation.maxX += spaceIncreaser;
+        firstPlatformSpawnLocation.minY += spaceIncreaser;
+        firstPlatformSpawnLocation.maxY += spaceIncreaser;
+
+        spaceBetweenPlatforms.minX += spaceIncreaser;
+        spaceBetweenPlatforms.maxX += spaceIncreaser;
+        spaceBetweenPlatforms.minY += spaceIncreaser;
+        spaceBetweenPlatforms.maxY += spaceIncreaser;
     }
 }

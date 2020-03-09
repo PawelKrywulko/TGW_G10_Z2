@@ -9,7 +9,9 @@ public class SpikesController : MonoBehaviour
 {
     [SerializeField] private List<GameObject> spikeContainers;
     [SerializeField] private float animationTime = 4f;
+    [SerializeField] private float animationTimeIncreaser = 0.1f;
     [SerializeField] [Range(0.2f, 0.8f)] private float spikeOffset = 0.4f;
+    [SerializeField] private float spikeOffsetIncreaser = 0.05f;
     [SerializeField] [Range(1, 2)] private int hidingMethod = 1;
 
     private Dictionary<string, List<Transform>> spikeWalls;
@@ -19,6 +21,7 @@ public class SpikesController : MonoBehaviour
         SetupAllSpikes();
         GameEvents.Instance.OnBankTriggerEntered += ManageSpikes;
         GameEvents.Instance.OnWallTriggerEntered += OnPlayerWallEntered;
+        GameEvents.Instance.OnLevelIncreased += IncreaseSpikeValues;
     }
 
     private void ManageSpikes()
@@ -101,5 +104,11 @@ public class SpikesController : MonoBehaviour
             concreteSpike.localPosition = Vector3.Lerp(originPosition, newPosition, percent);
             yield return null;
         }
+    }
+
+    private void IncreaseSpikeValues()
+    {
+        animationTime += animationTimeIncreaser;
+        spikeOffset += Mathf.Min(0.8f, spikeOffsetIncreaser);
     }
 }

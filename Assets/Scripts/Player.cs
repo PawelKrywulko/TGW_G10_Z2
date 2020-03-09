@@ -7,7 +7,9 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float jumpHeight = 7f;
+    [SerializeField] private float jumHeightIncreaser = 0.01f;
     [SerializeField] private float moveVelocity = 20f;
+    [SerializeField] private float moveVelocityIncreaser = 0.1f;
     [SerializeField] private bool wallSlidingEnabled = true;
     [SerializeField] private bool doubleJumpEnabled = true;
     [SerializeField] private float maxWallSlideVelocity = 1f;
@@ -37,6 +39,7 @@ public class Player : MonoBehaviour
         wallMask = LayerMask.GetMask("Wall");
         GameEvents.Instance.OnGameStarts += StartPlayer;
         GameEvents.Instance.OnItemInShopBought += ChangePlayerColor;
+        GameEvents.Instance.OnLevelIncreased += IncreasePlayerValues;
     }
 
     private void StartPlayer()
@@ -222,5 +225,11 @@ public class Player : MonoBehaviour
         string currentColorHash = PlayerPrefs.GetString("CurrentPlayerColor", "#000000");
         ColorUtility.TryParseHtmlString(currentColorHash, out Color color);
         GetComponent<SpriteRenderer>().color = color;
+    }
+
+    private void IncreasePlayerValues()
+    {
+        moveVelocity += moveVelocityIncreaser;
+        jumpHeight += jumHeightIncreaser;
     }
 }

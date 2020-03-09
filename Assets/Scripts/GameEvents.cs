@@ -25,6 +25,7 @@ public class GameEvents : MonoBehaviour
     public event Action OnSpikeTriggerEntered;
     public event Action OnGameStarts;
     public event Action<ItemInShopBought> OnItemInShopBought;
+    public event Action OnLevelIncreased;
 
     public void HandleWallTriggerEntered(PlayerWallEntered eventData)
     {
@@ -54,5 +55,10 @@ public class GameEvents : MonoBehaviour
     public void HandleItemInShopBought(ItemInShopBought itemData)
     {
         OnItemInShopBought?.Invoke(itemData);
+    }
+
+    public void HandleIncreasedLevel()
+    {
+        OnLevelIncreased?.Invoke();
     }
 }
