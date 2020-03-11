@@ -240,11 +240,77 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpHeight: 6.5
+  jumHeightIncreaser: 0.01
   moveVelocity: 3.5
+  moveVelocityIncreaser: 0.1
   wallSlidingEnabled: 1
   doubleJumpEnabled: 1
   maxWallSlideVelocity: 1
   animator: {fileID: 2942665250942071919}
+  skins:
+  - skinName: Skin00
+    animations:
+    - animationName: Idle
+      animationSprites:
+      - {fileID: 21300000, guid: aeb1cc0d8c92a154aa16f7d54c9d7ad8, type: 3}
+      - {fileID: 21300000, guid: 5291d41db2e53c04b84f98f814907ecd, type: 3}
+      - {fileID: 21300000, guid: a797092c5c8148e49ab5c1fdf3c9c6fb, type: 3}
+      - {fileID: 21300000, guid: 1af21bd4234873b498b19f5220b7f8a7, type: 3}
+    - animationName: Jump
+      animationSprites:
+      - {fileID: 21300000, guid: a0265c09ea0f8ea4dbcf4a399a2681c9, type: 3}
+      - {fileID: 21300000, guid: ebad847b16bc5394eb6f0bb19d50c3cd, type: 3}
+      - {fileID: 21300000, guid: 620884374254b8c44b02d904c4a79adc, type: 3}
+      - {fileID: 21300000, guid: 088a966a80ab3fc47b3c0b64e859290b, type: 3}
+      - {fileID: 21300000, guid: 350c7bd619b931c409bd736ab7a7cf47, type: 3}
+      - {fileID: 21300000, guid: 7cb84ff651825d34ab88e517e73d7b17, type: 3}
+      - {fileID: 21300000, guid: 6c8588e724cfb6f4eab0d7a82c9acaec, type: 3}
+      - {fileID: 21300000, guid: 71d86ff9fabfcc64a985d4d84b417a5a, type: 3}
+      - {fileID: 21300000, guid: 771805a520a7cd14c8fee7e01da9c5b9, type: 3}
+    - animationName: SlideLeft
+      animationSprites:
+      - {fileID: 21300000, guid: 46a4d12a25ca0e94ea23997a7fb566ea, type: 3}
+      - {fileID: 21300000, guid: c44a21d66655cd84d8e4d65ab7bed009, type: 3}
+      - {fileID: 21300000, guid: 9c4ae5d820c5ee6408519b537386a417, type: 3}
+      - {fileID: 21300000, guid: 56213898cca452d42bca8b30ebca4f55, type: 3}
+    - animationName: SlideRight
+      animationSprites:
+      - {fileID: 21300000, guid: 09fee821c2a0f3f419fc833fe5af5b89, type: 3}
+      - {fileID: 21300000, guid: 02b068af0134e494d888ed7549d70f8c, type: 3}
+      - {fileID: 21300000, guid: f8c18cc594cdeeb468bbb6067d60a284, type: 3}
+      - {fileID: 21300000, guid: d29575f11c4d5f14cb2e212a462d06c8, type: 3}
+  - skinName: Skin01
+    animations:
+    - animationName: Idle
+      animationSprites:
+      - {fileID: 21300000, guid: 3fa31abe35cefda40b2b8c5adc8b89b7, type: 3}
+      - {fileID: 21300000, guid: 95b17c44a47fa8844bcf9f8633267b48, type: 3}
+      - {fileID: 21300000, guid: 6df7ce58c3e741d42b9d8cd48c220854, type: 3}
+      - {fileID: 21300000, guid: e1d6e45bfaced5a4faa745615e9b74ab, type: 3}
+    - animationName: Jump
+      animationSprites:
+      - {fileID: 21300000, guid: 03e3aff7d42ff1a4d9f3016e6d0780e7, type: 3}
+      - {fileID: 21300000, guid: 4a63d398a7cc0bb4a953793f6f7cb401, type: 3}
+      - {fileID: 21300000, guid: 97462448ad6b5f0409194acef97a73de, type: 3}
+      - {fileID: 21300000, guid: 4a1a554de81576f4aba7e2e05da3ea96, type: 3}
+      - {fileID: 21300000, guid: b9ce655817c6d2a48aee9f82c7f1ce06, type: 3}
+      - {fileID: 21300000, guid: 73e5306dcde29524491228b2a3d7053d, type: 3}
+      - {fileID: 21300000, guid: 7a3fb7bef0414ed4ca58eef57b437520, type: 3}
+      - {fileID: 21300000, guid: 33d298cdee9c7c8479176ac11d7ee977, type: 3}
+      - {fileID: 21300000, guid: 43a6ae15371cfa84987ec8014a8df257, type: 3}
+    - animationName: SlideLeft
+      animationSprites:
+      - {fileID: 21300000, guid: 077c73ac5783366469ae95388829081f, type: 3}
+      - {fileID: 21300000, guid: fcbb61ab039ce2844be698f273517158, type: 3}
+      - {fileID: 21300000, guid: ef0e0815bf15b1d4980f902b468a8614, type: 3}
+      - {fileID: 21300000, guid: 772daf29f97ab01499a5b1cd04bd363e, type: 3}
+    - animationName: SlideRight
+      animationSprites:
+      - {fileID: 21300000, guid: f5714a70e95c6994b93208a665c4089f, type: 3}
+      - {fileID: 21300000, guid: 5cec643469a056e45b2732c48fe660bf, type: 3}
+      - {fileID: 21300000, guid: 06b378a55ace7f34d9df53233fec746b, type: 3}
+      - {fileID: 21300000, guid: 5a3ee9e37344c82478848579009e1edd, type: 3}
+  currentSkinName: Skin00
 --- !u!50 &1078494454
 Rigidbody2D:
   serializedVersion: 4

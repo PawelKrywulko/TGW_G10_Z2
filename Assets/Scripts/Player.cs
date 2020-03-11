@@ -1,5 +1,9 @@
 ﻿using Assets.Scripts.Events;
+using Assets.Scripts.Helpers;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -14,6 +18,8 @@ public class Player : MonoBehaviour
     [SerializeField] private bool doubleJumpEnabled = true;
     [SerializeField] private float maxWallSlideVelocity = 1f;
     [SerializeField] private Animator animator;
+    [SerializeField] private string currentSkinName = "Skin00";
+    [SerializeField] private List<Skin> skins;
 
     //private variables
     private float directionFactor = 1f;
@@ -61,6 +67,44 @@ public class Player : MonoBehaviour
         Jump();
         Move();
         WallSlide();
+    }
+
+    void LateUpdate()
+    {
+        foreach (var renderer in GetComponentsInChildren<SpriteRenderer>())
+        {
+            string spriteName = renderer.sprite.name;
+            Sprite skinSprite = null;
+            string animationName = "";
+
+            if (spriteName.Contains("Idle"))
+            {
+                animationName = "Idle";
+            }
+            else if (spriteName.Contains("Jump"))
+            {
+                animationName = "Jump";
+            }
+            else if (spriteName.Contains("WallLeft"))
+            {
+                animationName = "SlideLeft";
+            }
+            else if (spriteName.Contains("WallRight"))
+            {
+                animationName = "SlideRight";
+            }
+            else
+            {
+                Debug.LogWarning("Sprites folder not found!");
+            }
+
+            skinSprite = skins?.FirstOrDefault(skin => skin.skinName == currentSkinName)
+                .animations?.FirstOrDefault(animation => animation.animationName == animationName)
+                .animationSprites?.FirstOrDefault(sprite => sprite.name == spriteName);
+
+            if (skinSprite != null)
+                renderer.sprite = skinSprite;
+        }
     }
 
     void FixedUpdate()
