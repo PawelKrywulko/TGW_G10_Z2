@@ -32,7 +32,7 @@ public class PlatformGenerator : MonoBehaviour
         var remainingPlatforms = platforms.Where(platform => platform.activeSelf == false).ToList();
 
         var startPosition = activePlatform.transform.position;
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 6; i++)
         {
             var platform = remainingPlatforms[i];
             platform.transform.position = new Vector3(startPosition.x + i + 1, startPosition.y);
@@ -45,7 +45,7 @@ public class PlatformGenerator : MonoBehaviour
         int platformsCount = spawnMultiplePlatforms ? 25 : 10;
         Enumerable.Range(0, platformsCount).ToList().ForEach(index =>
         {
-            var newPlatform = Instantiate(platform, new Vector3(firstPlatformXPos, 5), Quaternion.identity);
+            var newPlatform = Instantiate(platform, new Vector3(firstPlatformXPos, 4.7f), Quaternion.identity);
             if(index != 0)
                 newPlatform.SetActive(false);
             platforms.Add(newPlatform);

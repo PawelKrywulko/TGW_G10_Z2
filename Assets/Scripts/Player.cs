@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     private bool isWallSliding = false;
     private LayerMask platformMask;
     private LayerMask wallMask;
+    private bool jumpBlocked = false;
 
     void Start()
     {
@@ -64,7 +65,8 @@ public class Player : MonoBehaviour
             animator.SetBool("IsJumping", true);
         }
 
-        Jump();
+        if(!jumpBlocked)
+            Jump();
         Move();
         WallSlide();
     }
@@ -275,5 +277,32 @@ public class Player : MonoBehaviour
     {
         moveVelocity += moveVelocityIncreaser;
         jumpHeight += jumHeightIncreaser;
+    }
+
+    public float GetMoveVelocity()
+    {
+        return moveVelocity;
+    }
+
+    public void SetMoveVelocity(float newVelocity)
+    {
+        moveVelocity = newVelocity;
+        moveVector = new Vector2(moveVelocity, 0);
+    }
+
+    public float GetJumpHeight()
+    {
+        return jumpHeight;
+    }
+
+    public void SetJumpHeight(float newHeight)
+    {
+        jumpHeight = newHeight;
+        jumpVector = new Vector2(0, jumpHeight);
+    }
+
+    public void SwitchJumpFunction()
+    {
+        jumpBlocked = !jumpBlocked;
     }
 }
