@@ -311,6 +311,132 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 5cec643469a056e45b2732c48fe660bf, type: 3}
       - {fileID: 21300000, guid: 06b378a55ace7f34d9df53233fec746b, type: 3}
       - {fileID: 21300000, guid: 5a3ee9e37344c82478848579009e1edd, type: 3}
+  - skinName: Skin02
+    animations:
+    - animationName: Idle
+      animationSprites:
+      - {fileID: 21300000, guid: 8c75dca08551f4d4796aa06ff3a86fe7, type: 3}
+      - {fileID: 21300000, guid: cfcb6f19a3bfd8541abb7d2862bf8705, type: 3}
+      - {fileID: 21300000, guid: c3bb5294feca73a4398b4ea3c367ecb2, type: 3}
+      - {fileID: 21300000, guid: ad06adab86d92d34285e615c13366d72, type: 3}
+    - animationName: Jump
+      animationSprites:
+      - {fileID: 21300000, guid: c4f3e9014e2aa924bbe29abead277bdb, type: 3}
+      - {fileID: 21300000, guid: a3a620d108ffc284eb90f0782b587d39, type: 3}
+      - {fileID: 21300000, guid: 99b6b5c1f158cbe498760759046e3cf0, type: 3}
+      - {fileID: 21300000, guid: 3d10f5b5e5fcfc642870a03ea1953791, type: 3}
+      - {fileID: 21300000, guid: dcd906db4b2b2324db2824e4376e59ab, type: 3}
+      - {fileID: 21300000, guid: 5c0f37dddf4616c42b3eb25250ef0705, type: 3}
+      - {fileID: 21300000, guid: 39cd145f003e8da4684f1aa0a63ceae6, type: 3}
+      - {fileID: 21300000, guid: a50f8fce306159e458defb79596b65b4, type: 3}
+      - {fileID: 21300000, guid: 02242b04f030c9c4885d0f7815f14764, type: 3}
+    - animationName: SlideLeft
+      animationSprites:
+      - {fileID: 21300000, guid: ddec16b901e7043428287c1e3af4ecbd, type: 3}
+      - {fileID: 21300000, guid: 4f3d7c090f8073b40a2f7915b27d33c3, type: 3}
+      - {fileID: 21300000, guid: e21e2801feb9c6d489a766b7b108d64a, type: 3}
+      - {fileID: 21300000, guid: cd7a66cedef41254d96820102c5177e3, type: 3}
+    - animationName: SlideRight
+      animationSprites:
+      - {fileID: 21300000, guid: 144c7f18de0fc7e4e91782b1363c7624, type: 3}
+      - {fileID: 21300000, guid: f54b95bcca6dab44a90081d640c1fa17, type: 3}
+      - {fileID: 21300000, guid: 79748de35f018c749a0c89088a079bce, type: 3}
+      - {fileID: 21300000, guid: 3918b53cf955aac4b9bb7139e29e56b1, type: 3}
+  - skinName: Skin03
+    animations:
+    - animationName: Idle
+      animationSprites:
+      - {fileID: 21300000, guid: de38baa4dc52bb248bd3d5d5c3fcdd9d, type: 3}
+      - {fileID: 21300000, guid: 99fdbb6645e0a4443a45c2246a301067, type: 3}
+      - {fileID: 21300000, guid: 5d16682c2ee51db49b85ce4afd6b6a41, type: 3}
+      - {fileID: 21300000, guid: 111ea207d93749745a8dd3a757ce8a40, type: 3}
+    - animationName: Jump
+      animationSprites:
+      - {fileID: 21300000, guid: fa7d44a3c1529a04493ecf5f7355366b, type: 3}
+      - {fileID: 21300000, guid: 3dbdc917b4a356c4f931ed221c97f7d7, type: 3}
+      - {fileID: 21300000, guid: 39992c9144b27474697c0d2807cd30b8, type: 3}
+      - {fileID: 21300000, guid: 782f78aaf93f3224b8451fd243074fed, type: 3}
+      - {fileID: 21300000, guid: 557b4a562afd8cf4bb45faa6f10a43db, type: 3}
+      - {fileID: 21300000, guid: aac551d9b23e7114fb5a79800aee8f73, type: 3}
+      - {fileID: 21300000, guid: 6d62354e5b799b4469d4ca62706c1d90, type: 3}
+      - {fileID: 21300000, guid: 5fe6b03012900ed409472689b6c97361, type: 3}
+      - {fileID: 21300000, guid: 3ef1876e46f0d2f4599b7417187dfa88, type: 3}
+    - animationName: SlideLeft
+      animationSprites:
+      - {fileID: 21300000, guid: 07585a9f0e1a7894b81a9c0037b6ba5d, type: 3}
+      - {fileID: 21300000, guid: 8227f9be28b17c548bce9632dd45bf8f, type: 3}
+      - {fileID: 21300000, guid: 8227f9be28b17c548bce9632dd45bf8f, type: 3}
+      - {fileID: 21300000, guid: fbcfdf3704c29fd43ae7f646efd78e52, type: 3}
+      - {fileID: 21300000, guid: 5aa47bac085619047b1155f9097e0be9, type: 3}
+    - animationName: SlideRight
+      animationSprites:
+      - {fileID: 21300000, guid: 29ccc8bacc7a1c242af2fc816b4b1316, type: 3}
+      - {fileID: 21300000, guid: bd2860008d48f684e9d338287fae23c5, type: 3}
+      - {fileID: 21300000, guid: bd2860008d48f684e9d338287fae23c5, type: 3}
+      - {fileID: 21300000, guid: 68c983e16b6f72842af78c15eed70277, type: 3}
+      - {fileID: 21300000, guid: a7f489ad84b861d4fbe75074cc8df330, type: 3}
+  - skinName: Skin04
+    animations:
+    - animationName: Idle
+      animationSprites:
+      - {fileID: 21300000, guid: eb032b174d6316f4eba67a507170b318, type: 3}
+      - {fileID: 21300000, guid: 7a209c91b51561148b53bcc0a3d9e159, type: 3}
+      - {fileID: 21300000, guid: a0d0dde1d9ea4e54199040572ce8ebbf, type: 3}
+      - {fileID: 21300000, guid: ffb307115b9dd164b85b87dd2a6b80bf, type: 3}
+    - animationName: Jump
+      animationSprites:
+      - {fileID: 21300000, guid: 29ae2407ebf747e42b6e9dea88f38d75, type: 3}
+      - {fileID: 21300000, guid: ce7338613162f4a428fb270a27ad2ba8, type: 3}
+      - {fileID: 21300000, guid: ab2ea21a4091085449f8af3a33728cb0, type: 3}
+      - {fileID: 21300000, guid: 00af6c4ab6e6919408f761e8714e86cb, type: 3}
+      - {fileID: 21300000, guid: 26a2f37406e2b6b4fa36b5bdabea414c, type: 3}
+      - {fileID: 21300000, guid: 7641308bb4ea0e745aca856c1a851aa2, type: 3}
+      - {fileID: 21300000, guid: f61d3cdf8ece5a3408765983c8aa95f7, type: 3}
+      - {fileID: 21300000, guid: 52c92dacd0787c848a2fe220119e9296, type: 3}
+      - {fileID: 21300000, guid: c76aaa67b4a5da743b166de50f3d09ff, type: 3}
+    - animationName: SlideLeft
+      animationSprites:
+      - {fileID: 21300000, guid: 9dd5f6817a8a60c4b9ac13550db18879, type: 3}
+      - {fileID: 21300000, guid: 28036ddd4cd63bc429b43f5be2cfccf0, type: 3}
+      - {fileID: 21300000, guid: 0f333b757e192c24f822d8ba5510b117, type: 3}
+      - {fileID: 21300000, guid: 0f55037586f6d89429227cdbb0479d2c, type: 3}
+    - animationName: SlideRight
+      animationSprites:
+      - {fileID: 21300000, guid: f11217f5486c5e94bb1456f5b5df982a, type: 3}
+      - {fileID: 21300000, guid: e4f0732b13e030a4a8dd913abb292fb0, type: 3}
+      - {fileID: 21300000, guid: 02221494f8795e14c9b533d1faaad1c1, type: 3}
+      - {fileID: 21300000, guid: 5d2e180c0f2df264cb1ef935443029d7, type: 3}
+  - skinName: Skin05
+    animations:
+    - animationName: Idle
+      animationSprites:
+      - {fileID: 21300000, guid: 69f9022eed7556e4f81d0b958a590f6a, type: 3}
+      - {fileID: 21300000, guid: 2df178409dd2a0545b86b9aa529ef125, type: 3}
+      - {fileID: 21300000, guid: 3e078996d20cafb45baa91d3485b48ca, type: 3}
+      - {fileID: 21300000, guid: 527d78183cc1bdf45b8f750243d71655, type: 3}
+    - animationName: Jump
+      animationSprites:
+      - {fileID: 21300000, guid: 98503074ad230be459a08cddf3eddae4, type: 3}
+      - {fileID: 21300000, guid: 5cb66dad146112c4c89848d90359a41d, type: 3}
+      - {fileID: 21300000, guid: 9861c4ebbab9c3b4a8a53b034cae00d4, type: 3}
+      - {fileID: 21300000, guid: e9a529ab21dd9264cab11674989ce473, type: 3}
+      - {fileID: 21300000, guid: 13113f84e60afc94bb3f319441f56904, type: 3}
+      - {fileID: 21300000, guid: b8f2f3fee6ed99b4f8e0d80126a48358, type: 3}
+      - {fileID: 21300000, guid: 380c0a97f826d0c4a95bc7fb2535d34a, type: 3}
+      - {fileID: 21300000, guid: e98a7f8ed51e03542ada4fe3f4dd0a06, type: 3}
+      - {fileID: 21300000, guid: 0451cb42e4659ad4282bcb607da6cc20, type: 3}
+    - animationName: SlideLeft
+      animationSprites:
+      - {fileID: 21300000, guid: b5568ace6e2acce4996ca2c558b461f1, type: 3}
+      - {fileID: 21300000, guid: 3d46e70c763cfa64796c00e3fe8c50de, type: 3}
+      - {fileID: 21300000, guid: 8def848537b9d8240b4e9d3d1b37591d, type: 3}
+      - {fileID: 21300000, guid: 60e86ce324ac4514197fbaf775c425f9, type: 3}
+    - animationName: SlideRight
+      animationSprites:
+      - {fileID: 21300000, guid: 4b44c251310683346938371576be98cf, type: 3}
+      - {fileID: 21300000, guid: c4b5820525f8ad442b1e2720cb410346, type: 3}
+      - {fileID: 21300000, guid: 1c4999d98254be14ea23e11a1a8ee4d6, type: 3}
+      - {fileID: 21300000, guid: 0060547b510496f4ca61399304bed28c, type: 3}
 --- !u!50 &1078494454
 Rigidbody2D:
   serializedVersion: 4

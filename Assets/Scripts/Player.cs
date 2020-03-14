@@ -3,10 +3,8 @@ using Assets.Scripts.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -18,10 +16,12 @@ public class Player : MonoBehaviour
     [SerializeField] private bool doubleJumpEnabled = true;
     [SerializeField] private float maxWallSlideVelocity = 1f;
     [SerializeField] private Animator animator;
-    [SerializeField] private string currentSkinName = "Skin00";
     [SerializeField] private List<Skin> skins;
 
+    public static Dictionary<string, string> skinDictionary;
+
     //private variables
+    private string currentSkinName;
     private float directionFactor = 1f;
     private Rigidbody2D playerRigidbody;
     private BoxCollider2D platformChecker;
@@ -37,6 +37,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         SetPlayerColor();
+        SetPlayerSkin();
+        PopulateSkinDictionary();
         playerRigidbody = GetComponent<Rigidbody2D>();
         platformChecker = transform.Find("PlatformChecker").GetComponent<BoxCollider2D>();
         wallChecker = transform.Find("WallChecker").GetComponent<BoxCollider2D>();
@@ -45,7 +47,7 @@ public class Player : MonoBehaviour
         platformMask = LayerMask.GetMask("Platform");
         wallMask = LayerMask.GetMask("Wall");
         GameEvents.Instance.OnGameStarts += StartPlayer;
-        GameEvents.Instance.OnItemInShopBought += ChangePlayerColor;
+        GameEvents.Instance.OnItemInShopBought += HandlePurchase;
         GameEvents.Instance.OnLevelIncreased += IncreasePlayerValues;
     }
 
@@ -261,9 +263,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void ChangePlayerColor(ItemInShopBought item)
+    private void HandlePurchase(ItemInShopBought item)
     {
-        GetComponent<SpriteRenderer>().color = item.ItemColor;
+        if(item.ItemColor != null)
+            GetComponent<SpriteRenderer>().color = item.ItemColor.Value;
+        if (item.ItemSkinName != null)
+            currentSkinName = item.ItemSkinName;
     }
 
     private void SetPlayerColor()
@@ -271,6 +276,11 @@ public class Player : MonoBehaviour
         string currentColorHash = PlayerPrefs.GetString("CurrentPlayerColor", "#000000");
         ColorUtility.TryParseHtmlString(currentColorHash, out Color color);
         GetComponent<SpriteRenderer>().color = color;
+    }
+
+    private void SetPlayerSkin()
+    {
+        currentSkinName = PlayerPrefs.GetString("CurrentPlayerSkin", "Skin00");
     }
 
     private void IncreasePlayerValues()
@@ -304,5 +314,24 @@ public class Player : MonoBehaviour
     public void SwitchJumpFunction()
     {
         jumpBlocked = !jumpBlocked;
+    }
+
+    public void PopulateSkinDictionary()
+    {
+        skinDictionary = new Dictionary<string, string>();
+        var itemNames = new List<string>
+        {
+            "Argentum",
+            "Jelly",
+            "Sponge",
+            "Pie",
+            "Wood",
+            "Water"
+        };
+
+        for (int i = 0; i < itemNames.Count; i++)
+        {
+            skinDictionary.Add(skins[i].skinName, itemNames[i]);
+        }
     }
 }

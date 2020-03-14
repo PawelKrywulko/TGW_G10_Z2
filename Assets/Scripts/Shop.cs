@@ -14,27 +14,82 @@ public class Shop : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform shopContainer;
     [SerializeField] private GameObject shopItemPrefab;
+    [SerializeField] private Transform tabsContainer;
+    [SerializeField] private GameObject tabPrefab;
+    [SerializeField] private List<string> tabNames;
 
-    private List<GameObject> shopItemsReferences = new List<GameObject>();
+
+    private List<GameObject> currentTabShopItemsReferences = new List<GameObject>();
+    private List<GameObject> tabObjectReferences = new List<GameObject>();
+    private Dictionary<string, List<ShopItem>> shopItemsDict = new Dictionary<string, List<ShopItem>>();
     private Color defaultBackground = new Color(0.0f, 0.0f, 0.0f, 100.0f / 255f);
     private Color lastlychosenColor = new Color(27.0f / 255f, 27.0f / 255f, 27.0f / 255f, 255.0f / 255f);
-    private Animator buttonAnimator;
 
     void Start()
     {
-        PopulateShop();
+        PopulateShopItemsDict();
+        PopulateTabs();
+        PopulateShop(tabNames.First());
     }
 
-    private void PopulateShop()
+    private void PopulateShopItemsDict()
     {
-        shopItems.ForEach(item =>
+        //Item name in the editor must contain tabName!
+        tabNames.ForEach(tabName =>
+        {
+            shopItemsDict.Add(tabName.ToLower(), shopItems.Where(shopItem => shopItem.name.ToLower().Contains(tabName.ToLower())).ToList());
+        });
+    }
+
+    private void PopulateTabs()
+    {
+        tabNames.ForEach(tabName =>
+        {
+            GameObject tabObject = Instantiate(tabPrefab, tabsContainer);
+            tabObject.GetComponent<Button>().onClick.AddListener(() => OnTabClick(tabObject, tabName));
+            tabObject.transform.GetChild(0).GetComponent<Text>().text = tabName;
+            tabObjectReferences.Add(tabObject);
+        });
+
+        tabObjectReferences.First().transform.GetChild(0).GetComponent<Shadow>().enabled = true;
+        tabObjectReferences.First().transform.GetChild(0).GetComponent<RectTransform>().localPosition = new Vector3(0, 15);
+    }
+
+    private void OnTabClick(GameObject tabObject, string tabName)
+    {
+        tabObjectReferences.ForEach(tab =>
+        {
+            tab.transform.GetChild(0).GetComponent<Shadow>().enabled = false;
+            tab.transform.GetChild(0).GetComponent<RectTransform>().localPosition = new Vector3(0, 0);
+        });
+
+        var chosenTab = tabObjectReferences.First(tabObj => tabObj == tabObject).transform.GetChild(0);
+        chosenTab.GetComponent<Shadow>().enabled = true;
+        chosenTab.GetComponent<RectTransform>().localPosition = new Vector3(0, 15);
+
+        //clear container
+        foreach (Transform child in shopContainer)
+        {
+            Destroy(child.gameObject);
+        }
+
+        PopulateShop(tabName);
+    }
+
+    private void PopulateShop(string tabName)
+    {
+        tabName = tabName.ToLower();
+        currentTabShopItemsReferences = new List<GameObject>();
+
+        shopItemsDict[tabName].ForEach(item =>
         {
             GameObject itemObject = Instantiate(shopItemPrefab, shopContainer);
             itemObject.transform.GetChild(1).GetComponent<Image>().sprite = item.sprite;
             itemObject.transform.GetChild(1).GetComponent<Image>().color = item.skinColor;
             itemObject.transform.GetChild(0).GetComponent<Text>().text = item.itemName;
-            itemObject.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() => OnButtonClick(item));
+            itemObject.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(() => OnButtonClick(item, tabName));
 
+            //change price to SOLD if bought previously
             if (PlayerPrefs.GetInt(item.itemName, 0) == 0)
             {
                 itemObject.transform.GetChild(2).GetChild(0).GetChild(1).GetComponent<Text>().text = item.price.ToString();
@@ -47,19 +102,25 @@ public class Shop : MonoBehaviour
             }
 
             var currentPlayerColorHexStr = $"#{ColorUtility.ToHtmlStringRGBA(itemObject.transform.GetChild(1).GetComponent<Image>().color)}";
-            if (currentPlayerColorHexStr == PlayerPrefs.GetString("CurrentPlayerColor", "#000000"))
+            if (tabName == "color" && currentPlayerColorHexStr == PlayerPrefs.GetString("CurrentPlayerColor", "#000000"))
+            {
+                //change background ShopItem if currently used
+                itemObject.GetComponent<Image>().color = lastlychosenColor;
+            }
+            var currentPlayerSkin = PlayerPrefs.GetString("CurrentPlayerSkin", "Skin00");
+            if (tabName == "skin" && item.itemName == Player.skinDictionary[currentPlayerSkin])
             {
                 //change background ShopItem if currently used
                 itemObject.GetComponent<Image>().color = lastlychosenColor;
             }
             
-            shopItemsReferences.Add(itemObject);
+            currentTabShopItemsReferences.Add(itemObject);
         });
     }
 
-    private void OnButtonClick(ShopItem item)
+    private void OnButtonClick(ShopItem item, string tabName)
     {
-        var itemReference = shopItemsReferences.First(itemRef => itemRef.transform.GetChild(0).GetComponent<Text>().text == item.itemName);
+        var itemReference = currentTabShopItemsReferences.First(itemRef => itemRef.transform.GetChild(0).GetComponent<Text>().text == item.itemName);
         var itemColor = itemReference.transform.GetChild(1).GetComponent<Image>().color;
         var colorHexStr = $"#{ColorUtility.ToHtmlStringRGBA(itemColor)}";
         var buttonAnimator = itemReference.transform.GetChild(2).GetComponent<Animator>();
@@ -70,35 +131,69 @@ public class Shop : MonoBehaviour
             Destroy(coinImageTransform.gameObject);
             itemReference.transform.GetChild(2).GetChild(0).GetChild(1).GetComponent<Text>().text = "SOLD";
             
-            PlayerPrefs.SetString("CurrentPlayerColor", colorHexStr);
             PlayerPrefs.SetInt(item.itemName, 1); //itemName == 1 => item SOLD
-
-            GameEvents.Instance.HandleItemInShopBought(new ItemInShopBought
+            
+            if(tabName == "color")
             {
-                ItemColor = item.skinColor,
-                ItemPrice = item.price
-            });
+                PlayerPrefs.SetString("CurrentPlayerColor", colorHexStr);
+                
+                GameEvents.Instance.HandleItemInShopBought(new ItemInShopBought
+                {
+                    ItemColor = item.skinColor,
+                    ItemPrice = item.price,
+                    ItemSkinName = null
+                });
+            }
+            else if (tabName == "skin")
+            {
+                var boughtSkin = Player.skinDictionary.First(x => x.Value == item.itemName).Key;
+                PlayerPrefs.SetString("CurrentPlayerSkin", boughtSkin);
+                
+                GameEvents.Instance.HandleItemInShopBought(new ItemInShopBought
+                {
+                    ItemColor = null,
+                    ItemPrice = item.price,
+                    ItemSkinName = boughtSkin
+                });
+            }
+            else
+            {
+                Debug.LogWarning("Wrong tabName");
+            }
         }
 
-        if(PlayerPrefs.GetInt(item.itemName) == 1)
+        if(tabName == "color" && PlayerPrefs.GetInt(item.itemName) == 1)
         {
             PlayerPrefs.SetString("CurrentPlayerColor", colorHexStr);
 
             GameEvents.Instance.HandleItemInShopBought(new ItemInShopBought
             {
                 ItemColor = item.skinColor,
-                ItemPrice = 0
+                ItemPrice = 0,
+                ItemSkinName = null
+            });
+        }
+        if (tabName == "skin" && PlayerPrefs.GetInt(item.itemName) == 1)
+        {
+            var boughtSkin = Player.skinDictionary.First(x => x.Value == item.itemName).Key;
+            PlayerPrefs.SetString("CurrentPlayerSkin", boughtSkin);
+
+            GameEvents.Instance.HandleItemInShopBought(new ItemInShopBought
+            {
+                ItemColor = null,
+                ItemPrice = 0,
+                ItemSkinName = boughtSkin
             });
         }
 
-        if(GameManager.allCoins < item.price && PlayerPrefs.GetInt(item.itemName) == 0)
+        if (GameManager.allCoins < item.price && PlayerPrefs.GetInt(item.itemName) == 0)
         {
             buttonAnimator.SetTrigger("NotEnoughMoney");
         } 
         else
         {
             //change backgrounds
-            shopItemsReferences.ForEach(si => si.GetComponent<Image>().color = defaultBackground);
+            currentTabShopItemsReferences.ForEach(si => si.GetComponent<Image>().color = defaultBackground);
             itemReference.GetComponent<Image>().color = lastlychosenColor;
         }
     }
