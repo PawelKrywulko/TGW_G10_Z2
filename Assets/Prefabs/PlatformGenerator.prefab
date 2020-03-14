@@ -47,11 +47,13 @@ MonoBehaviour:
     type: 3}
   firstPlatformSpawnLocation:
     minX: 2
-    maxX: 3
+    maxX: 2.5
     minY: 1
     maxY: 2
-  SpaceBetweenPlatforms:
-    minX: 2.5
-    maxX: 4
+  spaceBetweenPlatforms:
+    minX: 2
+    maxX: 3
     minY: -1.5
     maxY: 1.5
+  spaceIncreaser: 0.045
+  spawnMultiplePlatforms: 1

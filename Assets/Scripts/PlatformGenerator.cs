@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts;
 using Assets.Scripts.Events;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -56,8 +55,8 @@ public class PlatformGenerator : MonoBehaviour
     {
         factor *= -1f;
         platforms.ForEach(platform => platform.SetActive(false));
-        xPos = player.PlayerPosition.x + UnityEngine.Random.Range(firstPlatformSpawnLocation.minX, firstPlatformSpawnLocation.maxX) * factor;
-        yPos = player.PlayerPosition.y - UnityEngine.Random.Range(firstPlatformSpawnLocation.minY, firstPlatformSpawnLocation.maxY);
+        xPos = player.PlayerPosition.x + Random.Range(firstPlatformSpawnLocation.minX, firstPlatformSpawnLocation.maxX) * factor;
+        yPos = player.PlayerPosition.y - Random.Range(firstPlatformSpawnLocation.minY, firstPlatformSpawnLocation.maxY);
         yPos = Mathf.Clamp(yPos, 2f, 7f);
 
         var firstPlatform = platforms[0];
@@ -70,8 +69,8 @@ public class PlatformGenerator : MonoBehaviour
         {
             if (!spawnAdditional)
             {
-                xPos += UnityEngine.Random.Range(spaceBetweenPlatforms.minX, spaceBetweenPlatforms.maxX) * factor;
-                yPos += UnityEngine.Random.Range(spaceBetweenPlatforms.minY, spaceBetweenPlatforms.maxY);
+                xPos += Random.Range(spaceBetweenPlatforms.minX, spaceBetweenPlatforms.maxX) * factor;
+                yPos += Random.Range(spaceBetweenPlatforms.minY, spaceBetweenPlatforms.maxY);
                 
 
                 yPos = Mathf.Clamp(yPos, 2f, 7f);
@@ -86,13 +85,13 @@ public class PlatformGenerator : MonoBehaviour
                 float additionalYPos = 0;
                 if (UnityEngine.Random.Range(0,2) == 1)
                 {
-                    additionalYPos = UnityEngine.Random.Range(lastlySpawnedPosition.y + 1.5f, 8f);
+                    additionalYPos = Random.Range(lastlySpawnedPosition.y + 1.5f, 8f);
                 } 
                 else
                 {
-                    additionalYPos = UnityEngine.Random.Range(1.5f, lastlySpawnedPosition.y - 1.5f);
+                    additionalYPos = Random.Range(1.5f, lastlySpawnedPosition.y - 1.5f);
                 }
-                lastlySpawnedPosition = new Vector3(lastlySpawnedPosition.x, additionalYPos);
+                lastlySpawnedPosition = new Vector3(lastlySpawnedPosition.x + Random.Range(-0.5f, 0.5f), additionalYPos);
             }
 
             platform.transform.position = lastlySpawnedPosition;
@@ -105,7 +104,7 @@ public class PlatformGenerator : MonoBehaviour
             }
             if(spawnMultiplePlatforms)
             {
-                spawnAdditional = UnityEngine.Random.Range(0, 2) == 1 ? true : false;
+                spawnAdditional = Random.Range(0, 2) == 1 ? true : false;
             }
         }
     }

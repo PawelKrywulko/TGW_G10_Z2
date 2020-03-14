@@ -46,6 +46,8 @@ MonoBehaviour:
   spikeContainers:
   - {fileID: 0}
   - {fileID: 0}
-  timeToNextSpike: 1
-  animationTime: 3
-  spikeOffset: 0.5
+  animationTime: 1
+  animationTimeIncreaser: 0.1
+  spikeOffset: 0.6
+  spikeOffsetIncreaser: 0.05
+  hidingMethod: 1

@@ -83,7 +83,7 @@ Transform:
   m_GameObject: {fileID: 1577783704}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.056, y: -0.27, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.01, z: 1}
   m_Children: []
   m_Father: {fileID: 5250468366115528773}
   m_RootOrder: 0
@@ -144,7 +144,7 @@ Transform:
   m_GameObject: {fileID: 5250468366115528769}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.8412, y: 4.7248, z: 0}
-  m_LocalScale: {x: 0.41033998, y: 0.41033998, z: 0.5862}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.5862}
   m_Children:
   - {fileID: 1577783705}
   - {fileID: 1332941945}
@@ -239,14 +239,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7122f47812a03d44b54ee7ddf1d8c8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpHeight: 6.5
+  jumpHeight: 6.7
   jumHeightIncreaser: 0.01
-  moveVelocity: 3.5
-  moveVelocityIncreaser: 0.1
+  moveVelocity: 3.1
+  moveVelocityIncreaser: 0.07
   wallSlidingEnabled: 1
   doubleJumpEnabled: 1
   maxWallSlideVelocity: 1
   animator: {fileID: 2942665250942071919}
+  currentSkinName: Skin00
   skins:
   - skinName: Skin00
     animations:
@@ -310,7 +311,6 @@ MonoBehaviour:
       - {fileID: 21300000, guid: 5cec643469a056e45b2732c48fe660bf, type: 3}
       - {fileID: 21300000, guid: 06b378a55ace7f34d9df53233fec746b, type: 3}
       - {fileID: 21300000, guid: 5a3ee9e37344c82478848579009e1edd, type: 3}
-  currentSkinName: Skin00
 --- !u!50 &1078494454
 Rigidbody2D:
   serializedVersion: 4

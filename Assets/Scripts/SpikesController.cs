@@ -109,6 +109,6 @@ public class SpikesController : MonoBehaviour
     private void IncreaseSpikeValues()
     {
         animationTime += animationTimeIncreaser;
-        spikeOffset += Mathf.Min(0.8f, spikeOffsetIncreaser);
+        spikeOffset = Mathf.Min(0.8f, spikeOffset + spikeOffsetIncreaser);
     }
 }

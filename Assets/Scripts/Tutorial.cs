@@ -1,10 +1,7 @@
 ﻿using Assets.Scripts.Events;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Tutorial : MonoBehaviour
 {
@@ -33,7 +30,7 @@ public class Tutorial : MonoBehaviour
     void Start()
     {
         tutorialNotFinished = PlayerPrefs.GetInt("TutorialNotFinished", 1) == 1 ? true : false;
-        if(tutorialNotFinished)
+        if (tutorialNotFinished)
         {
             tipTexts.ForEach(txtObj => tipsDict.Add(txtObj, false));
             GameEvents.Instance.OnGameStarts += RunTutorial;
@@ -55,7 +52,7 @@ public class Tutorial : MonoBehaviour
 
     private IEnumerator StartTutorial()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.7f);
         if(tipsDict[tipTexts[0]] == false)
             StartCoroutine(TipOne());
     }
