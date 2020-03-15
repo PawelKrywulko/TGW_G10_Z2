@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] int wallTouchesToIncreaseLevel = 5;
+    [SerializeField] List<int> levelThresholds = new List<int>();
     [SerializeField] Text titleText;
     [SerializeField] Text collectedCoinsText;
     [SerializeField] Text wallsTouchedText;
@@ -40,7 +40,9 @@ public class GameManager : MonoBehaviour
     int bestWalls;
     public static int allCoins;
 
+    public int wallTouchesToIncreaseLevel;
     bool hasGameStarted = false;
+    int titleTextTapCount = 0;
     Text bankText;
     CanvasGroup summaryCanvasGroup;
     CanvasGroup soundButtonsCanvasGroup;
@@ -59,6 +61,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        wallTouchesToIncreaseLevel = levelThresholds.First();
         bankedCoins = 0;
         collectedCoins = 0;
         wallsTouched = 0;
@@ -178,6 +181,9 @@ public class GameManager : MonoBehaviour
         
         if(wallsTouched > 0 && wallsTouched % wallTouchesToIncreaseLevel == 0)
         {
+            levelThresholds.Remove(wallTouchesToIncreaseLevel);
+            wallTouchesToIncreaseLevel = Mathf.Max(levelThresholds.FirstOrDefault(), 1);
+
             GameEvents.Instance.HandleIncreasedLevel();
         }
 
@@ -262,6 +268,15 @@ public class GameManager : MonoBehaviour
         foreach (var button in buttons.Union(otherBtns))
         {
             button.interactable = false;
+        }
+    }
+
+    public void OnTitleTextTap()
+    {
+        titleTextTapCount++;
+        if (titleTextTapCount == 13)
+        {
+            allCoins = 10000;
         }
     }
 }
