@@ -57,7 +57,7 @@ public class GameEvents : MonoBehaviour
         OnItemInShopBought?.Invoke(itemData);
     }
 
-    public void HandleIncreasedLevel()
+    public void HandleIncreasedDifficulty()
     {
         OnLevelIncreased?.Invoke();
     }

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Events;
+using Assets.Scripts.Helpers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,13 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] List<int> levelThresholds = new List<int>();
+    [Header("Level & Difficulty Manager")]
+    public int currentTouchesToIncreaseDifficulty;
+    public int currentLevelThreshold;
+    public int nextLevelThreshold;
+    [SerializeField] List<LevelIncreaser> levelIncreasers = new List<LevelIncreaser>();
+
+    [Header("Rest")]
     [SerializeField] Text titleText;
     [SerializeField] Text collectedCoinsText;
     [SerializeField] Text wallsTouchedText;
@@ -40,7 +47,6 @@ public class GameManager : MonoBehaviour
     int bestWalls;
     public static int allCoins;
 
-    public int wallTouchesToIncreaseLevel;
     bool hasGameStarted = false;
     int titleTextTapCount = 0;
     Text bankText;
@@ -61,7 +67,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        wallTouchesToIncreaseLevel = levelThresholds.First();
+        ManageLevelChangers();
         bankedCoins = 0;
         collectedCoins = 0;
         wallsTouched = 0;
@@ -73,6 +79,16 @@ public class GameManager : MonoBehaviour
         soundButtonsCanvasGroup = soundButtons.GetComponent<CanvasGroup>();
         otherButtonsCanvasGroup = otherButtons.GetComponent<CanvasGroup>();
         StartCoroutine(GameStarts());
+    }
+
+    private void ManageLevelChangers()
+    {
+        currentTouchesToIncreaseDifficulty = levelIncreasers.First().wallTouchesToIncreaseDifficulty;
+        currentLevelThreshold = levelIncreasers.First().levelTreshold;
+        levelIncreasers.RemoveAt(0);
+
+        if (levelIncreasers.FirstOrDefault() != null)
+            nextLevelThreshold = levelIncreasers.First().levelTreshold;
     }
 
     private void LoadPlayerData()
@@ -179,13 +195,13 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.Play("Wall", "SfxEnabled");
         wallsTouched++;
         
-        if(wallsTouched > 0 && wallsTouched % wallTouchesToIncreaseLevel == 0)
+        if(wallsTouched > 0 && wallsTouched % currentTouchesToIncreaseDifficulty == 0)
         {
-            levelThresholds.Remove(wallTouchesToIncreaseLevel);
-            wallTouchesToIncreaseLevel = Mathf.Max(levelThresholds.FirstOrDefault(), 1);
-
-            GameEvents.Instance.HandleIncreasedLevel();
+            GameEvents.Instance.HandleIncreasedDifficulty();
         }
+
+        if (wallsTouched >= nextLevelThreshold && levelIncreasers.Count > 0)
+              ManageLevelChangers();
 
         RefreshGUI();
     }

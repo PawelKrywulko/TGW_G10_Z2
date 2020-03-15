@@ -10,7 +10,8 @@ public class SpikesController : MonoBehaviour
     [SerializeField] private List<GameObject> spikeContainers;
     [SerializeField] private float animationTime = 4f;
     [SerializeField] private float animationTimeIncreaser = 0.1f;
-    [SerializeField] [Range(0.2f, 0.8f)] private float spikeOffset = 0.4f;
+    [SerializeField] [Range(0.5f, 1.2f)] private float spikeOffset = 0.4f;
+    [SerializeField] private float maxSpikeOffset = 1.2f;
     [SerializeField] private float spikeOffsetIncreaser = 0.05f;
     [SerializeField] [Range(1, 2)] private int hidingMethod = 1;
 
@@ -109,6 +110,6 @@ public class SpikesController : MonoBehaviour
     private void IncreaseSpikeValues()
     {
         animationTime += animationTimeIncreaser;
-        spikeOffset = Mathf.Min(0.8f, spikeOffset + spikeOffsetIncreaser);
+        spikeOffset = Mathf.Min(maxSpikeOffset, spikeOffset + spikeOffsetIncreaser);
     }
 }
