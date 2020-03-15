@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] List<Sprite> musicSprites;
     [SerializeField] List<Sprite> sfxSprites;
 
-    string collectedCoinsStr = "COINS COLLECED:";
+    string collectedCoinsStr = "COINS COLLECTED:";
     string wallsTouchedStr = "WALLS TOUCHED:";
     string bestCoinsStr = "COINS BANKED:";
     string bestWallsStr = "WALLS TOUCHED:";

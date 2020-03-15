@@ -44,7 +44,7 @@ public class PlatformGenerator : MonoBehaviour
         int platformsCount = spawnMultiplePlatforms ? 25 : 10;
         Enumerable.Range(0, platformsCount).ToList().ForEach(index =>
         {
-            var newPlatform = Instantiate(platform, new Vector3(firstPlatformXPos, 4.7f), Quaternion.identity);
+            var newPlatform = Instantiate(platform, new Vector3(firstPlatformXPos, 5.4f), Quaternion.identity);
             if(index != 0)
                 newPlatform.SetActive(false);
             platforms.Add(newPlatform);
