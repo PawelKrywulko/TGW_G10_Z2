@@ -273,7 +273,10 @@ public class Player : MonoBehaviour
 
     private void SetPlayerColor()
     {
-        string currentColorHash = PlayerPrefs.GetString("CurrentPlayerColor", "#000000");
+        if(PlayerPrefs.GetString("CurrentPlayerColor") == null)
+            PlayerPrefs.GetString("CurrentPlayerColor", "#000000");
+
+        string currentColorHash = PlayerPrefs.GetString("CurrentPlayerColor");
         ColorUtility.TryParseHtmlString(currentColorHash, out Color color);
         GetComponent<SpriteRenderer>().color = color;
     }
