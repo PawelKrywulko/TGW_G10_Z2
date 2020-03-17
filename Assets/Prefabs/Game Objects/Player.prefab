@@ -101,7 +101,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.044988275, y: -0.36151615}
+  m_Offset: {x: 0.055996567, y: -0.36151615}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -112,7 +112,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.4945078, y: 0.13821226}
+  m_Size: {x: 1.6816483, y: 0.13821226}
   m_EdgeRadius: 0
 --- !u!1 &5250468366115528769
 GameObject:
@@ -247,7 +247,6 @@ MonoBehaviour:
   doubleJumpEnabled: 1
   maxWallSlideVelocity: 1
   animator: {fileID: 2942665250942071919}
-  currentSkinName: Skin00
   skins:
   - skinName: Skin00
     animations:

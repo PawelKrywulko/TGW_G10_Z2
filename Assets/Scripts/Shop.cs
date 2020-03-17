@@ -101,7 +101,7 @@ public class Shop : MonoBehaviour
                 itemObject.transform.GetChild(2).GetChild(0).GetChild(1).GetComponent<Text>().text = "SOLD";
             }
 
-            var currentPlayerColorHexStr = $"#{ColorUtility.ToHtmlStringRGBA(itemObject.transform.GetChild(1).GetComponent<Image>().color)}";
+            var currentPlayerColorHexStr = $"#{ColorUtility.ToHtmlStringRGB(itemObject.transform.GetChild(1).GetComponent<Image>().color)}";
             if (tabName == "color" && currentPlayerColorHexStr == PlayerPrefs.GetString("CurrentPlayerColor", "#000000"))
             {
                 //change background ShopItem if currently used

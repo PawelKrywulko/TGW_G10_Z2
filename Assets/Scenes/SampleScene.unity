@@ -2225,7 +2225,7 @@ PrefabInstance:
     - target: {fileID: 4324935220687006534, guid: 044c80d94ed77f141aa87db10d771f75,
         type: 3}
       propertyPath: spikeOffset
-      value: 0.5
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 4324935220687006535, guid: 044c80d94ed77f141aa87db10d771f75,
         type: 3}
