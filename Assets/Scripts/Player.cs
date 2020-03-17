@@ -274,7 +274,7 @@ public class Player : MonoBehaviour
     private void SetPlayerColor()
     {
         if(PlayerPrefs.GetString("CurrentPlayerColor") == null)
-            PlayerPrefs.GetString("CurrentPlayerColor", "#000000");
+            PlayerPrefs.SetString("CurrentPlayerColor", "#000000");
 
         string currentColorHash = PlayerPrefs.GetString("CurrentPlayerColor");
         ColorUtility.TryParseHtmlString(currentColorHash, out Color color);

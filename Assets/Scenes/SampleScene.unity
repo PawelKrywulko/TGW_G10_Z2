@@ -1033,17 +1033,17 @@ PrefabInstance:
     - target: {fileID: 2233246254283494722, guid: 3f48375996861eb4787fefc2553fc4b2,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.92941177
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2233246254283494722, guid: 3f48375996861eb4787fefc2553fc4b2,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.88235295
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2233246254283494722, guid: 3f48375996861eb4787fefc2553fc4b2,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.40784314
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2233246254864350242, guid: 3f48375996861eb4787fefc2553fc4b2,
         type: 3}
@@ -2222,6 +2222,11 @@ PrefabInstance:
       propertyPath: spikeContainers.Array.data[1]
       value: 
       objectReference: {fileID: 1891907523}
+    - target: {fileID: 4324935220687006534, guid: 044c80d94ed77f141aa87db10d771f75,
+        type: 3}
+      propertyPath: spikeOffset
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4324935220687006535, guid: 044c80d94ed77f141aa87db10d771f75,
         type: 3}
       propertyPath: m_Name
@@ -3125,6 +3130,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Spikes
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087219364865857220, guid: bc3baa7ddc4eba14c809173e2dd6cc09,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9087219364998281727, guid: bc3baa7ddc4eba14c809173e2dd6cc09,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 17.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc3baa7ddc4eba14c809173e2dd6cc09, type: 3}
