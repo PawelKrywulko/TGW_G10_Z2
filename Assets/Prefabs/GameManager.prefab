@@ -43,7 +43,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 574e8497c4a251944808206d75f4dfc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallTouchesToIncreaseLevel: 1
+  currentTouchesToIncreaseDifficulty: 0
+  currentLevelThreshold: 0
+  nextLevelThreshold: 0
+  levelIncreasers:
+  - levelTreshold: 0
+    wallTouchesToIncreaseDifficulty: 6
+  - levelTreshold: 20
+    wallTouchesToIncreaseDifficulty: 4
+  - levelTreshold: 40
+    wallTouchesToIncreaseDifficulty: 3
+  - levelTreshold: 60
+    wallTouchesToIncreaseDifficulty: 1
   titleText: {fileID: 0}
   collectedCoinsText: {fileID: 0}
   wallsTouchedText: {fileID: 0}

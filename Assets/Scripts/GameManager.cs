@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
     int bestCoins;
     int bestWalls;
     public static int allCoins;
+    int coinValue;
 
     bool hasGameStarted = false;
     int titleTextTapCount = 0;
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour
         bankedCoins = 0;
         collectedCoins = 0;
         wallsTouched = 0;
+        coinValue = 1;
         LoadPlayerData();
         SubscribeForEvents();
         ClearGameTexts();
@@ -166,7 +168,7 @@ public class GameManager : MonoBehaviour
     public void UpdateCollectedCoins()
     {
         AudioManager.Instance.Play("Coin", "SfxEnabled");
-        collectedCoins++;
+        collectedCoins += coinValue;
         RefreshGUI();
     }
 
@@ -201,7 +203,10 @@ public class GameManager : MonoBehaviour
         }
 
         if (wallsTouched >= nextLevelThreshold && levelIncreasers.Count > 0)
-              ManageLevelChangers();
+        {
+            coinValue++;
+            ManageLevelChangers();
+        }
 
         RefreshGUI();
     }

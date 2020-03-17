@@ -22,8 +22,8 @@ public class Shop : MonoBehaviour
     private List<GameObject> currentTabShopItemsReferences = new List<GameObject>();
     private List<GameObject> tabObjectReferences = new List<GameObject>();
     private Dictionary<string, List<ShopItem>> shopItemsDict = new Dictionary<string, List<ShopItem>>();
-    private Color defaultBackground = new Color(0.0f, 0.0f, 0.0f, 100.0f / 255f);
-    private Color lastlychosenColor = new Color(27.0f / 255f, 27.0f / 255f, 27.0f / 255f, 255.0f / 255f);
+    private Color defaultBackground = new Color(129.0f / 255f, 218.0f / 255f, 238.0f / 255f, 150.0f / 255f);
+    private Color lastlychosenColor = new Color(129.0f / 255f, 218.0f / 255f, 238.0f / 255f, 255.0f / 255f);
 
     void Start()
     {
