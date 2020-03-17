@@ -75,7 +75,7 @@ public class PlatformGenerator : MonoBehaviour
 
                 yPos = Mathf.Clamp(yPos, 2f, 7f);
 
-                if (xPos < 1 || xPos > 16)
+                if (xPos < 2 || xPos > 15)
                     break;
 
                 lastlySpawnedPosition = new Vector3(xPos, yPos);
