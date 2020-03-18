@@ -91,7 +91,7 @@ public class PlatformGenerator : MonoBehaviour
                 {
                     additionalYPos = Random.Range(1.5f, lastlySpawnedPosition.y - 1.5f);
                 }
-                lastlySpawnedPosition = new Vector3(lastlySpawnedPosition.x + Random.Range(-0.5f, 0.5f), additionalYPos);
+                lastlySpawnedPosition = new Vector3(lastlySpawnedPosition.x + Random.Range(-0.25f, 0.25f), additionalYPos);
             }
 
             platform.transform.position = lastlySpawnedPosition;

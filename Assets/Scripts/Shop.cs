@@ -22,7 +22,7 @@ public class Shop : MonoBehaviour
     private List<GameObject> currentTabShopItemsReferences = new List<GameObject>();
     private List<GameObject> tabObjectReferences = new List<GameObject>();
     private Dictionary<string, List<ShopItem>> shopItemsDict = new Dictionary<string, List<ShopItem>>();
-    private Color defaultBackground = new Color(129.0f / 255f, 218.0f / 255f, 238.0f / 255f, 150.0f / 255f);
+    private Color defaultBackground = new Color(129.0f / 255f, 218.0f / 255f, 238.0f / 255f, 100.0f / 255f);
     private Color lastlychosenColor = new Color(129.0f / 255f, 218.0f / 255f, 238.0f / 255f, 255.0f / 255f);
 
     void Start()
@@ -102,7 +102,8 @@ public class Shop : MonoBehaviour
             }
 
             var currentPlayerColorHexStr = $"#{ColorUtility.ToHtmlStringRGB(itemObject.transform.GetChild(1).GetComponent<Image>().color)}";
-            if (tabName == "color" && currentPlayerColorHexStr == PlayerPrefs.GetString("CurrentPlayerColor", "#000000"))
+            var savedPlayerColor = PlayerPrefs.GetString("CurrentPlayerColor", "#000000");
+            if (tabName == "color" && currentPlayerColorHexStr == savedPlayerColor)
             {
                 //change background ShopItem if currently used
                 itemObject.GetComponent<Image>().color = lastlychosenColor;
@@ -122,7 +123,7 @@ public class Shop : MonoBehaviour
     {
         var itemReference = currentTabShopItemsReferences.First(itemRef => itemRef.transform.GetChild(0).GetComponent<Text>().text == item.itemName);
         var itemColor = itemReference.transform.GetChild(1).GetComponent<Image>().color;
-        var colorHexStr = $"#{ColorUtility.ToHtmlStringRGBA(itemColor)}";
+        var colorHexStr = $"#{ColorUtility.ToHtmlStringRGB(itemColor)}";
         var buttonAnimator = itemReference.transform.GetChild(2).GetComponent<Animator>();
 
         if (GameManager.allCoins >= item.price && PlayerPrefs.GetInt(item.itemName) == 0)

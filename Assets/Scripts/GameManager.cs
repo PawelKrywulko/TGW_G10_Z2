@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] GameObject bank;
     [SerializeField] GameObject shopCanvas;
+    [SerializeField] GameObject creditsCanvas;
     [SerializeField] List<Sprite> musicSprites;
     [SerializeField] List<Sprite> sfxSprites;
 
@@ -101,8 +102,8 @@ public class GameManager : MonoBehaviour
         bestWalls = PlayerPrefs.GetInt("BestWalls", 0);
         allCoins = PlayerPrefs.GetInt("AllCoins", 0);
         allCoinsText.text = allCoins.ToString();
-        bestCoinsText.text = $"{bestCoinsStr} {bestCoins}";
-        bestWallsText.text = $"{bestWallsStr} {bestWalls}";
+        bestCoinsText.text = $"{bestCoinsStr} <color=#FFFF00>{bestCoins}</color>";
+        bestWallsText.text = $"{bestWallsStr} <color=#ffa500ff>{bestWalls}</color>";
     }
 
     private void ClearGameTexts()
@@ -273,6 +274,14 @@ public class GameManager : MonoBehaviour
             shopCanvas.SetActive(false);
         else 
             shopCanvas.SetActive(true);
+    }
+
+    public void SwitchCreditsView()
+    {
+        if (creditsCanvas.activeSelf)
+            creditsCanvas.SetActive(false);
+        else
+            creditsCanvas.SetActive(true);
     }
 
     private void ManagePurchase(ItemInShopBought item)

@@ -48,6 +48,7 @@ MonoBehaviour:
   - {fileID: 0}
   animationTime: 1
   animationTimeIncreaser: 0.1
-  spikeOffset: 0.6
+  spikeOffset: 0.75
+  maxSpikeOffset: 1.5
   spikeOffsetIncreaser: 0.05
   hidingMethod: 1

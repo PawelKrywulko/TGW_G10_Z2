@@ -67,10 +67,10 @@ public class Player : MonoBehaviour
             animator.SetBool("IsJumping", true);
         }
 
+        WallSlide();
+
         if(!jumpBlocked)
             Jump();
-        Move();
-        WallSlide();
     }
 
     void LateUpdate()
@@ -113,6 +113,8 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        Move();
+
         //Clamp y velocity while wall sliding
         if(isWallSliding)
         {
