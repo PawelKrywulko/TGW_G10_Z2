@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject bank;
     [SerializeField] GameObject shopCanvas;
     [SerializeField] GameObject creditsCanvas;
+    [SerializeField] GameObject soundsCreditsCanvas;
     [SerializeField] List<Sprite> musicSprites;
     [SerializeField] List<Sprite> sfxSprites;
 
@@ -282,6 +283,14 @@ public class GameManager : MonoBehaviour
             creditsCanvas.SetActive(false);
         else
             creditsCanvas.SetActive(true);
+    }
+
+    public void SwitchSoundsCreditsView()
+    {
+        if (soundsCreditsCanvas.activeSelf)
+            soundsCreditsCanvas.SetActive(false);
+        else
+            soundsCreditsCanvas.SetActive(true);
     }
 
     private void ManagePurchase(ItemInShopBought item)
