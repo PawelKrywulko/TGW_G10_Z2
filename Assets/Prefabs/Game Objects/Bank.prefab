@@ -135,8 +135,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -1, y: -189.5}
-  m_SizeDelta: {x: 147.4, y: 120.099976}
+  m_AnchoredPosition: {x: -2, y: 70}
+  m_SizeDelta: {x: 326.4, y: 166.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2174857271101227453
 CanvasRenderer:
@@ -166,7 +166,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: b89e3d0899cb4af49bff4b467def802f, type: 3}
-    m_FontSize: 55
+    m_FontSize: 100
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 1, y: -1}
+  m_EffectDistance: {x: 7, y: -6}
   m_UseGraphicAlpha: 1
 --- !u!1 &4814817138874875999
 GameObject:
@@ -222,9 +222,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4814817138874875994}
   - component: {fileID: 4814817138874875997}
-  - component: {fileID: 4814817138874875996}
   - component: {fileID: 5930386336242244297}
   - component: {fileID: 8523789215901811344}
+  - component: {fileID: 6149834309756228762}
   m_Layer: 14
   m_Name: Bank
   m_TagString: Untagged
@@ -241,7 +241,7 @@ Transform:
   m_GameObject: {fileID: 4814817138874875999}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.5, y: 7.93, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.36, y: 0.36, z: 0.36}
   m_Children:
   - {fileID: 2240964223460783847}
   m_Father: {fileID: 0}
@@ -286,8 +286,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 025a0d501fc3b0741948f9fbc1f38687, type: 3}
-  m_Color: {r: 0.6313726, g: 0.6039216, b: 0.30980393, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 9d200d89f7e40cb42a5ce892303c5e98, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -297,22 +297,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &4814817138874875996
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4814817138874875999}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.6
 --- !u!95 &5930386336242244297
 Animator:
   serializedVersion: 3
@@ -344,3 +328,19 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!58 &6149834309756228762
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4814817138874875999}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.03631446}
+  serializedVersion: 2
+  m_Radius: 1.635968
