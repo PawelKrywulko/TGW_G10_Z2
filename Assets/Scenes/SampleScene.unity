@@ -2161,6 +2161,11 @@ PrefabInstance:
       propertyPath: spikeContainers.Array.data[1]
       value: 
       objectReference: {fileID: 1891907523}
+    - target: {fileID: 4324935220687006534, guid: 044c80d94ed77f141aa87db10d771f75,
+        type: 3}
+      propertyPath: animationTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4324935220687006535, guid: 044c80d94ed77f141aa87db10d771f75,
         type: 3}
       propertyPath: m_Name
