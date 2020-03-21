@@ -176,6 +176,9 @@ public class GameManager : MonoBehaviour
 
     public void ManagePlayersDeath()
     {
+        if(bankedCoins > 0)
+            bank.GetComponent<Animator>().SetTrigger("Ending");
+        
         AudioManager.Instance.Play("Death", "SfxEnabled");
 
         if (bankedCoins > bestCoins)
@@ -225,7 +228,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator RestartGame()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         SceneManager.LoadScene(0);
     }
 
